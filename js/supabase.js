@@ -308,4 +308,53 @@ export class SupabaseService {
     if (error) console.error('Supabase upsertPlantaRequest error:', error);
     return data;
   }
+
+  /* --------------------------------------------------------------------------
+     6. SEDE DIETAS SYNC (CENSO DIETÉTICO: GENERALES, DIABÉTICOS, CELÍACOS, SIN LACTOSA)
+     -------------------------------------------------------------------------- */
+  static async fetchSedeDietas() {
+    const client = await SupabaseService.getClient();
+    if (!client) return null;
+
+    const { data, error } = await client.from('sede_dietas').select('*');
+    if (error) {
+      console.warn('Supabase fetchSedeDietas error:', error);
+      return null;
+    }
+
+    const map = {};
+    data.forEach(r => {
+      map[r.sede_name] = {
+        generales: parseInt(r.generales) || 0,
+        diabeticos: parseInt(r.diabeticos) || 0,
+        celiacos: parseInt(r.celiacos) || 0,
+        sinLactosa: parseInt(r.sin_lactosa) || 0,
+        observaciones: r.observaciones || '',
+        updatedBy: r.updated_by || 'Referente de Sede',
+        updatedAt: r.updated_at || new Date().toISOString()
+      };
+    });
+    return map;
+  }
+
+  static async upsertSedeDietas(sedeName, dietasData) {
+    const client = await SupabaseService.getClient();
+    if (!client) return null;
+
+    const payload = {
+      sede_name: sedeName,
+      generales: parseInt(dietasData.generales) || 0,
+      diabeticos: parseInt(dietasData.diabeticos) || 0,
+      celiacos: parseInt(dietasData.celiacos) || 0,
+      sin_lactosa: parseInt(dietasData.sinLactosa) || 0,
+      observaciones: dietasData.observaciones || '',
+      updated_by: dietasData.updatedBy || 'Referente de Sede',
+      updated_at: new Date().toISOString()
+    };
+
+    const { data, error } = await client.from('sede_dietas').upsert(payload, { onConflict: 'sede_name' });
+    if (error) console.error('Supabase upsertSedeDietas error:', error);
+    return data;
+  }
 }
+

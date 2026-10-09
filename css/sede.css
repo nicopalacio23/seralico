@@ -1,0 +1,329 @@
+/* ==========================================================================
+   SERALICO - REFERENTE DE SEDE STYLES (COLONIAS DE VERANO)
+   Pedidos a Depósito & Censo Dietético (Generales, Diabéticos, Celíacos, Sin Lactosa)
+   ========================================================================== */
+
+.sede-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-app);
+}
+
+.sede-navbar {
+  padding: 0.85rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+
+.sede-container {
+  flex: 1;
+  padding: 2rem 0 4rem 0;
+}
+
+/* Sede Header Bar with Switcher */
+.sede-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.sede-title-wrap h1 {
+  font-size: 1.75rem;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.35rem;
+}
+
+.sede-title-wrap p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* Sede Quick Switcher Pill */
+.sede-picker-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+.sede-picker-select {
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+}
+
+/* Sede Tabs */
+.sede-tabs-nav {
+  display: flex;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem;
+  gap: 0.35rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.sede-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: var(--radius-xs);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.sede-tab-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-subtle);
+}
+
+.sede-tab-btn.active {
+  background: var(--brand-navy-900);
+  color: #FFFFFF;
+}
+
+[data-theme="dark"] .sede-tab-btn.active {
+  background: #FFFFFF;
+  color: var(--brand-navy-950);
+}
+
+/* Panels */
+.sede-section-panel {
+  display: none;
+}
+
+.sede-section-panel.active {
+  display: block;
+}
+
+/* Steppers in Catalog Table */
+.qty-stepper-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  padding: 0.2rem;
+}
+
+.btn-step-sm {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-weight: bold;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 0.85rem;
+}
+
+.btn-step-sm:hover {
+  background: var(--brand-blue);
+  color: #FFF;
+  border-color: var(--brand-blue);
+}
+
+.btn-step-quick {
+  width: auto;
+  padding: 0 0.4rem;
+  font-size: 0.72rem;
+  background: rgba(2, 132, 199, 0.1);
+  color: var(--brand-blue);
+  border-color: rgba(2, 132, 199, 0.2);
+}
+
+.input-step-qty {
+  width: 48px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.tr-selected-order {
+  background: rgba(2, 132, 199, 0.04) !important;
+}
+
+/* --------------------------------------------------------------------------
+   DIETAS INTERACTIVE CARDS GRID
+   -------------------------------------------------------------------------- */
+.grid-dietas-interactive {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.card-dieta-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-dieta-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.card-dieta-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.card-dieta-generales::before { background: var(--brand-blue); }
+.card-dieta-diabeticos::before { background: #10B981; }
+.card-dieta-celiacos::before { background: #F59E0B; }
+.card-dieta-lactosa::before { background: #8B5CF6; }
+
+.dieta-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.dieta-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dieta-pct-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+}
+
+.dieta-card-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  min-height: 2.2rem;
+}
+
+.dieta-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.dieta-big-input {
+  font-size: 1.6rem;
+  font-weight: 900;
+  font-family: var(--font-mono);
+  border: none;
+  background: transparent;
+  width: 100px;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.dieta-stepper-btn-group {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.btn-diet-stepper {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-diet-stepper:hover {
+  background: var(--brand-navy-900);
+  color: #FFF;
+}
+
+[data-theme="dark"] .btn-diet-stepper:hover {
+  background: #FFF;
+  color: #000;
+}
+
+/* Visual Diet Distribution Progress Bar */
+.diet-bar-wrap {
+  display: flex;
+  height: 12px;
+  width: 100%;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--bg-surface-subtle);
+  margin: 1rem 0 1.5rem 0;
+  border: 1px solid var(--border-subtle);
+}
+
+.diet-bar-segment {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sede-navbar {
+    padding: 0.75rem 1rem;
+  }
+  .grid-dietas-interactive {
+    grid-template-columns: 1fr;
+  }
+}

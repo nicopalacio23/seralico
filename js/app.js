@@ -5,6 +5,7 @@
 import { AuthController } from './auth.js';
 import { AdminController } from './admin.js';
 import { DepositoController } from './deposito.js';
+import { SedeController } from './sede.js';
 import { SupabaseService } from './supabase.js';
 import { DataSync } from './data.js';
 
@@ -14,6 +15,7 @@ class SeralicoEnterpriseApp {
     this.authController = new AuthController(this);
     this.adminController = new AdminController(this);
     this.depositoController = new DepositoController(this);
+    this.sedeController = new SedeController(this);
     this.bindGlobalEvents();
     this.initRouter();
     this.initClock();
@@ -231,6 +233,10 @@ class SeralicoEnterpriseApp {
       this.showAdminView();
     } else if (hash === 'deposito' || hash === 'colonias/deposito') {
       this.showDepositoView();
+    } else if (hash === 'sede' || hash.startsWith('sede/') || hash === 'colonias/sede') {
+      const parts = hash.split('/');
+      const sedeParam = parts.length > 1 && parts[1] !== 'sede' ? decodeURIComponent(parts[1]) : null;
+      this.showSedeView(sedeParam);
     } else if (hash.startsWith('auth/')) {
       const moduleId = hash.split('/')[1];
       this.showAuthView(moduleId || 'calidad');
@@ -246,6 +252,8 @@ class SeralicoEnterpriseApp {
       window.location.hash = 'admin';
     } else if (view === 'deposito') {
       window.location.hash = 'deposito';
+    } else if (view === 'sede') {
+      window.location.hash = param ? `sede/${encodeURIComponent(param)}` : 'sede';
     } else if (view === 'auth') {
       window.location.hash = param ? `auth/${param}` : 'auth';
     } else {
@@ -258,12 +266,14 @@ class SeralicoEnterpriseApp {
     const authView = document.getElementById('auth-view');
     const adminView = document.getElementById('admin-view');
     const depositoView = document.getElementById('deposito-view');
+    const sedeView = document.getElementById('sede-view');
 
     const updateDom = () => {
       if (hubView) hubView.style.display = 'flex';
       if (authView) authView.style.display = 'none';
       if (adminView) adminView.style.display = 'none';
       if (depositoView) depositoView.style.display = 'none';
+      if (sedeView) sedeView.style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -279,6 +289,7 @@ class SeralicoEnterpriseApp {
     const authView = document.getElementById('auth-view');
     const adminView = document.getElementById('admin-view');
     const depositoView = document.getElementById('deposito-view');
+    const sedeView = document.getElementById('sede-view');
 
     this.authController.setModule(moduleId, false);
 
@@ -287,6 +298,7 @@ class SeralicoEnterpriseApp {
       if (authView) authView.style.display = 'block';
       if (adminView) adminView.style.display = 'none';
       if (depositoView) depositoView.style.display = 'none';
+      if (sedeView) sedeView.style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -302,6 +314,7 @@ class SeralicoEnterpriseApp {
     const authView = document.getElementById('auth-view');
     const adminView = document.getElementById('admin-view');
     const depositoView = document.getElementById('deposito-view');
+    const sedeView = document.getElementById('sede-view');
 
     this.adminController.renderUsers();
 
@@ -310,6 +323,7 @@ class SeralicoEnterpriseApp {
       if (authView) authView.style.display = 'none';
       if (adminView) adminView.style.display = 'block';
       if (depositoView) depositoView.style.display = 'none';
+      if (sedeView) sedeView.style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -325,6 +339,7 @@ class SeralicoEnterpriseApp {
     const authView = document.getElementById('auth-view');
     const adminView = document.getElementById('admin-view');
     const depositoView = document.getElementById('deposito-view');
+    const sedeView = document.getElementById('sede-view');
 
     this.depositoController.renderAll();
 
@@ -333,6 +348,38 @@ class SeralicoEnterpriseApp {
       if (authView) authView.style.display = 'none';
       if (adminView) adminView.style.display = 'none';
       if (depositoView) depositoView.style.display = 'block';
+      if (sedeView) sedeView.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    if (document.startViewTransition) {
+      document.startViewTransition(updateDom);
+    } else {
+      updateDom();
+    }
+  }
+
+  showSedeView(sedeName = null, user = null) {
+    const hubView = document.getElementById('hub-view');
+    const authView = document.getElementById('auth-view');
+    const adminView = document.getElementById('admin-view');
+    const depositoView = document.getElementById('deposito-view');
+    const sedeView = document.getElementById('sede-view');
+
+    if (sedeName) {
+      this.sedeController.setSede(sedeName, user);
+    } else if (user && user.sede) {
+      this.sedeController.setSede(user.sede, user);
+    } else {
+      this.sedeController.renderAll();
+    }
+
+    const updateDom = () => {
+      if (hubView) hubView.style.display = 'none';
+      if (authView) authView.style.display = 'none';
+      if (adminView) adminView.style.display = 'none';
+      if (depositoView) depositoView.style.display = 'none';
+      if (sedeView) sedeView.style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 

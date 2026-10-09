@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="css/auth.css">
   <link rel="stylesheet" href="css/admin.css">
   <link rel="stylesheet" href="css/deposito.css">
+  <link rel="stylesheet" href="css/sede.css">
 </head>
 <body>
   
@@ -631,6 +632,385 @@
               <!-- Dynamically populated by deposito.js -->
             </tbody>
           </table>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       VIEW 5: REFERENTE DE SEDE WORKSPACE (COLONIAS DE VERANO)
+       ========================================================================= -->
+  <section id="sede-view" class="sede-wrapper" style="display: none;">
+    
+    <!-- Top Bar in Sede View -->
+    <div class="sede-navbar">
+      <button class="auth-back-link font-mono" id="btn-sede-back">
+        <span>← Volver al Panel Principal</span>
+      </button>
+
+      <!-- Center Sede Selector -->
+      <div class="sede-picker-box">
+        <span class="font-mono" style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Sede Activa:</span>
+        <select id="sede-current-selector" class="sede-picker-select">
+          <!-- Dynamically populated -->
+        </select>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <span class="badge-role badge-role-colonias font-mono" id="sede-user-tag" style="padding: 0.35rem 0.75rem;">
+          👤 Referente de Sede
+        </span>
+      </div>
+    </div>
+
+    <!-- Sede Main Container -->
+    <div class="container sede-container">
+      
+      <!-- Header Row -->
+      <div class="sede-header-row">
+        <div class="sede-title-wrap">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+            <span class="badge-tag font-mono" style="background: rgba(2, 132, 199, 0.15); color: var(--brand-blue); font-weight: 700;">
+              COLONIAS DE VERANO 2026
+            </span>
+          </div>
+          <h1 id="sede-active-title">Gestión Operativa: Sede Colón</h1>
+          <p id="sede-active-subtitle">Portal del Referente para pedidos a Depósito Central y Censo Dietético Diario.</p>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <button class="btn btn-outline-subtle" onclick="document.getElementById('btn-print-sede-order').click();" style="font-size: 0.82rem;">
+            <span>🖨️ Imprimir Pedido</span>
+          </button>
+          <button class="btn btn-solid-dark" onclick="document.getElementById('btn-save-sede-dietas').click();" style="background: #059669; border-color: #059669; font-size: 0.82rem;">
+            <span>🥗 Guardar Censo</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Telemetry Stats Bar -->
+      <div class="admin-stats-bar" style="margin-bottom: 1.75rem;">
+        <div class="admin-stat-card">
+          <div class="admin-stat-val" id="sede-stat-total-raciones" style="color: var(--brand-blue);">0</div>
+          <div class="admin-stat-lbl">Total Raciones Diarias</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-val" id="sede-stat-dietas-especiales" style="color: #F59E0B;">0</div>
+          <div class="admin-stat-lbl">Dietas Clínicas Especiales</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-val" id="sede-stat-insumos-items" style="color: #10B981;">0</div>
+          <div class="admin-stat-lbl">Insumos Solicitados a Pañol</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-val" id="sede-stat-insumos-units">0</div>
+          <div class="admin-stat-lbl">Unidades Físicas en Pedido</div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs between Insumos & Dietas -->
+      <nav class="sede-tabs-nav" role="tablist">
+        <button class="sede-tab-btn active" data-sede-tab="pedidos" role="tab">
+          <span style="font-size: 1.1rem;">📦</span>
+          <span>1. Menú Pedido de Insumos a Depósito Central</span>
+        </button>
+        <button class="sede-tab-btn" data-sede-tab="dietas" role="tab">
+          <span style="font-size: 1.1rem;">🥗</span>
+          <span>2. Menú Censo Dietético (Generales, Diabéticos, Celíacos, Sin Lactosa)</span>
+        </button>
+      </nav>
+
+      <!-- =====================================================================
+           PANEL 1: PEDIDO DE INSUMOS A DEPOSITO CENTRAL
+           ===================================================================== -->
+      <div class="sede-section-panel active" id="sede-panel-pedidos">
+        
+        <div class="section-toolbar">
+          <div class="section-toolbar-left">
+            <div>
+              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em;">Catálogo de Insumos y Solicitud de Envío</h2>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">
+                Seleccione las cantidades que necesita que <strong>Depósito Central (Pañol)</strong> prepare y despache para esta sede.
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <!-- Category Filter -->
+            <select id="sede-category-filter" class="form-select" style="width: auto; padding: 0.5rem 0.85rem; font-size: 0.82rem;">
+              <option value="all">Todas las Categorías</option>
+              <option value="Descartables">Descartables</option>
+              <option value="Limpieza">Limpieza</option>
+              <option value="Equipamiento">Equipamiento</option>
+              <option value="Seguridad">Seguridad</option>
+            </select>
+
+            <!-- Search -->
+            <div class="search-input-wrap">
+              <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" class="search-input" id="sede-catalog-search" placeholder="Buscar por nombre o código...">
+            </div>
+
+            <!-- Print Order -->
+            <button class="btn btn-outline-subtle" id="btn-print-sede-order">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>Imprimir Comprobante</span>
+            </button>
+
+            <!-- Save / Send Order -->
+            <button class="btn btn-solid-dark" id="btn-save-sede-order" style="background: var(--brand-blue); border-color: var(--brand-blue);">
+              <span>📤 Enviar / Guardar Pedido</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Catalog Products Table -->
+        <div class="deposito-card-table">
+          <table class="deposito-table">
+            <thead>
+              <tr>
+                <th style="width: 100px;">Código</th>
+                <th>Nombre del Producto / Insumo</th>
+                <th style="width: 140px;">Categoría</th>
+                <th style="width: 150px;">Presentación</th>
+                <th style="width: 130px; text-align: center;">Stock Pañol</th>
+                <th style="width: 180px; text-align: right;">Cantidad a Pedir</th>
+              </tr>
+            </thead>
+            <tbody id="sede-catalog-tbody">
+              <!-- Dynamically populated by sede.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Order Bottom Status Bar -->
+        <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 0.85rem 1.25rem; border-radius: var(--radius-sm); flex-wrap: wrap; gap: 0.75rem;">
+          <div style="font-size: 0.85rem; color: var(--text-secondary);">
+            📦 Resumen de Pedido: <strong id="sede-order-summary-count" style="color: var(--brand-blue);">0</strong> artículos seleccionados (<strong id="sede-order-summary-units">0</strong> unidades físicas totales).
+          </div>
+          <div class="font-mono" style="font-size: 0.75rem; color: var(--text-muted);" id="sede-order-last-sync">
+            Sincronizado con Supabase Cloud
+          </div>
+        </div>
+
+      </div>
+
+      <!-- =====================================================================
+           PANEL 2: CENSO DIETETICO DIARIO (GENERALES, DIABETICOS, CELIACOS, SIN LACTOSA)
+           ===================================================================== -->
+      <div class="sede-section-panel" id="sede-panel-dietas">
+        
+        <div class="section-toolbar">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+              <span class="badge-tag font-mono" style="background: rgba(16, 185, 129, 0.15); color: #059669; font-weight: 700;">
+                🥗 CENSO DIARIO DE COMENSALES
+              </span>
+              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em; margin: 0;">Actualización de Raciones y Dietas Especiales</h2>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">
+              Actualice el número exacto de raciones que <strong>Planta de Elaboración</strong> debe cocinar y el <strong>Sector Desayuno</strong> debe dosificar para esta sede.
+            </p>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <button class="btn btn-outline-subtle" id="btn-print-sede-dietas">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>Imprimir Planilla Censo</span>
+            </button>
+
+            <button class="btn btn-solid-dark" id="btn-save-sede-dietas" style="background: #059669; border-color: #059669;">
+              <span>💾 Guardar y Notificar a Planta & Desayuno</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Visual Distribution Bar -->
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.75rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-primary);">
+              Distribución Porcentual del Padrón de Viandas:
+            </span>
+            <span class="font-mono" style="font-size: 0.88rem; font-weight: 800; color: var(--brand-blue);">
+              TOTAL VIANDAS: <span id="diet-total-display">0</span>
+            </span>
+          </div>
+
+          <!-- Color Bar -->
+          <div class="diet-bar-wrap" id="sede-dietas-percent-bar">
+            <!-- Dynamically populated segments -->
+          </div>
+
+          <!-- Legend with Percentages -->
+          <div style="display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: 0.78rem;">
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 10px; height: 10px; border-radius: 2px; background: var(--brand-blue); display: inline-block;"></span>
+              <span>Generales: <strong id="diet-pct-generales" class="font-mono">0%</strong></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 10px; height: 10px; border-radius: 2px; background: #10B981; display: inline-block;"></span>
+              <span>Diabéticos: <strong id="diet-pct-diabeticos" class="font-mono">0%</strong></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 10px; height: 10px; border-radius: 2px; background: #F59E0B; display: inline-block;"></span>
+              <span>Celíacos (Sin TACC): <strong id="diet-pct-celiacos" class="font-mono">0%</strong></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <span style="width: 10px; height: 10px; border-radius: 2px; background: #8B5CF6; display: inline-block;"></span>
+              <span>Sin Lactosa: <strong id="diet-pct-sin-lactosa" class="font-mono">0%</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Interactive Diet Cards Grid -->
+        <div class="grid-dietas-interactive">
+          
+          <!-- 1. GENERALES -->
+          <div class="card-dieta-item card-dieta-generales">
+            <div>
+              <div class="dieta-card-header">
+                <div class="dieta-card-title">
+                  <span>🍲</span>
+                  <span>1. Generales (Común)</span>
+                </div>
+                <span class="dieta-pct-badge" style="color: var(--brand-blue);">Menú Estándar</span>
+              </div>
+              <div class="dieta-card-desc">
+                Comensales sin requerimientos patológicos ni restricciones médicas certificadas.
+              </div>
+            </div>
+
+            <div>
+              <div class="dieta-input-row">
+                <input type="number" id="diet-qty-generales" class="dieta-big-input" value="180" min="0">
+                <div class="dieta-stepper-btn-group">
+                  <button type="button" class="btn-diet-stepper" data-diet-step="-10" data-diet-target="diet-qty-generales">-10</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="-1" data-diet-target="diet-qty-generales">-1</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="1" data-diet-target="diet-qty-generales">+1</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="10" data-diet-target="diet-qty-generales">+10</button>
+                </div>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); text-align: right;">Raciones estándar calculadas</div>
+            </div>
+          </div>
+
+          <!-- 2. DIABETICOS -->
+          <div class="card-dieta-item card-dieta-diabeticos">
+            <div>
+              <div class="dieta-card-header">
+                <div class="dieta-card-title">
+                  <span>💉</span>
+                  <span>2. Diabéticos</span>
+                </div>
+                <span class="dieta-pct-badge" style="color: #059669;">Control Glucémico</span>
+              </div>
+              <div class="dieta-card-desc">
+                Menú con control estricto de hidratos simples, sin azúcares añadidos ni postres azucarados.
+              </div>
+            </div>
+
+            <div>
+              <div class="dieta-input-row">
+                <input type="number" id="diet-qty-diabeticos" class="dieta-big-input" value="12" min="0">
+                <div class="dieta-stepper-btn-group">
+                  <button type="button" class="btn-diet-stepper" data-diet-step="-5" data-diet-target="diet-qty-diabeticos">-5</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="-1" data-diet-target="diet-qty-diabeticos">-1</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="1" data-diet-target="diet-qty-diabeticos">+1</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="5" data-diet-target="diet-qty-diabeticos">+5</button>
+                </div>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); text-align: right;">Viandas especiales rotuladas</div>
+            </div>
+          </div>
+
+          <!-- 3. CELIACOS -->
+          <div class="card-dieta-item card-dieta-celiacos">
+            <div>
+              <div class="dieta-card-header">
+                <div class="dieta-card-title">
+                  <span>🌾</span>
+                  <span>3. Celíacos (Sin T.A.C.C.)</span>
+                </div>
+                <span class="dieta-pct-badge" style="color: #D97706;">Libre de Gluten</span>
+              </div>
+              <div class="dieta-card-desc">
+                100% Sin T.A.C.C. Elaboración y sellado hermético en cocina aislada contra contaminación cruzada.
+              </div>
+            </div>
+
+            <div>
+              <div class="dieta-input-row">
+                <input type="number" id="diet-qty-celiacos" class="dieta-big-input" value="8" min="0">
+                <div class="dieta-stepper-btn-group">
+                  <button type="button" class="btn-diet-stepper" data-diet-step="-5" data-diet-target="diet-qty-celiacos">-5</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="-1" data-diet-target="diet-qty-celiacos">-1</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="1" data-diet-target="diet-qty-celiacos">+1</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="5" data-diet-target="diet-qty-celiacos">+5</button>
+                </div>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); text-align: right;">Sellado estéril individual</div>
+            </div>
+          </div>
+
+          <!-- 4. SIN LACTOSA -->
+          <div class="card-dieta-item card-dieta-lactosa">
+            <div>
+              <div class="dieta-card-header">
+                <div class="dieta-card-title">
+                  <span>🥛</span>
+                  <span>4. Sin Lactosa</span>
+                </div>
+                <span class="dieta-pct-badge" style="color: #7C3AED;">Intolerancia Láctea</span>
+              </div>
+              <div class="dieta-card-desc">
+                Preparaciones libres de leche animal, manteca, quesos o derivados de suero lácteo vacuno.
+              </div>
+            </div>
+
+            <div>
+              <div class="dieta-input-row">
+                <input type="number" id="diet-qty-sin-lactosa" class="dieta-big-input" value="15" min="0">
+                <div class="dieta-stepper-btn-group">
+                  <button type="button" class="btn-diet-stepper" data-diet-step="-5" data-diet-target="diet-qty-sin-lactosa">-5</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="-1" data-diet-target="diet-qty-sin-lactosa">-1</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="1" data-diet-target="diet-qty-sin-lactosa">+1</button>
+                  <button type="button" class="btn-diet-stepper" data-diet-step="5" data-diet-target="diet-qty-sin-lactosa">+5</button>
+                </div>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); text-align: right;">Bebidas y postres adaptados</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Medical / Bromatological Notes -->
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+          <label class="form-label" for="diet-observaciones" style="font-weight: 700; margin-bottom: 0.5rem; display: block;">
+            ⚠️ Observaciones Médicas & Alertas Bromatológicas para Planta Central / Auditoría:
+          </label>
+          <textarea id="diet-observaciones" class="form-input" rows="3" placeholder="ej. 2 comensales con alergia severa a frutos secos y mariscos. Notificar a sector emplatado de viandas."></textarea>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+            <span style="font-size: 0.75rem; color: var(--text-muted);" id="sede-dietas-last-update">
+              Último registro: Hoy (Referente de Sede)
+            </span>
+            <span style="font-size: 0.75rem; color: #059669; font-weight: 600;">
+              ✓ Visible en tiempo real para Planta de Elaboración y Auditor Bromatológico
+            </span>
+          </div>
         </div>
 
       </div>

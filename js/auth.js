@@ -204,8 +204,12 @@ export class AuthController {
     this.demoChipsContainer.querySelectorAll('[data-user]').forEach(btn => {
       btn.addEventListener('click', () => {
         const uname = btn.getAttribute('data-user');
+        const matched = users.find(u => u.username === uname);
         if (this.userInput) this.userInput.value = uname;
         if (this.passwordInput) this.passwordInput.value = 'seralico2026';
+        if (matched && matched.sede && this.sedeSelect) {
+          this.sedeSelect.value = matched.sede;
+        }
         this.app.showToast({ title: 'Credenciales Cargadas', message: `Usuario: ${uname}` });
       });
     });
@@ -288,7 +292,7 @@ export class AuthController {
         if (this.modalAdminBtn) this.modalAdminBtn.style.display = 'none';
       } else if (user.coloniasRole === 'deposito_central') {
         this.modalScopeNote.innerHTML = `
-          <strong>Depósito Central Colonias:</strong> Acceso a Catálogo de Insumos, Matriz de Pedidos por Camping, y Solicitudes de Desayuno y Planta.
+          <strong>Depósito Central Colonias:</strong> Acceso a Catálogo de Insumos, Matriz de Pedidos por Sede, y Solicitudes de Desayuno y Planta.
         `;
         if (this.modalAdminBtn) {
           this.modalAdminBtn.style.display = 'inline-flex';
@@ -296,6 +300,19 @@ export class AuthController {
           this.modalAdminBtn.onclick = () => {
             this.closeSuccessModal();
             this.app.navigateTo('deposito');
+          };
+        }
+      } else if (user.coloniasRole === 'referente_camping') {
+        const targetSede = user.sede || sede || 'Sede Colón';
+        this.modalScopeNote.innerHTML = `
+          <strong>Referente de Sede (${targetSede}):</strong> Acceso al menú para pedir insumos a Depósito Central y al Censo Dietético Diario (Generales, Diabéticos, Celíacos, Sin Lactosa).
+        `;
+        if (this.modalAdminBtn) {
+          this.modalAdminBtn.style.display = 'inline-flex';
+          this.modalAdminBtn.textContent = `Ingresar al Panel de ${targetSede} →`;
+          this.modalAdminBtn.onclick = () => {
+            this.closeSuccessModal();
+            this.app.showSedeView(targetSede, user);
           };
         }
       } else {

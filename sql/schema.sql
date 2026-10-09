@@ -82,6 +82,20 @@ CREATE TABLE IF NOT EXISTS public.planta_requests (
 );
 
 -- -----------------------------------------------------------------------------
+-- 6. TABLA: CENSO DIETÉTICO DE RACIONES POR SEDE (GENERALES, DIABÉTICOS, CELÍACOS, SIN LACTOSA)
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.sede_dietas (
+  sede_name TEXT PRIMARY KEY,
+  generales INTEGER DEFAULT 0,
+  diabeticos INTEGER DEFAULT 0,
+  celiacos INTEGER DEFAULT 0,
+  sin_lactosa INTEGER DEFAULT 0,
+  observaciones TEXT,
+  updated_by TEXT,
+  updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- -----------------------------------------------------------------------------
 -- HABILITAR ROW LEVEL SECURITY (RLS) CON ACCESO PARA CLIENTE ANON
 -- -----------------------------------------------------------------------------
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
@@ -89,6 +103,7 @@ ALTER TABLE public.camping_catalog ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.camping_orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.desayuno_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.planta_requests ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.sede_dietas ENABLE ROW LEVEL SECURITY;
 
 -- Políticas de lectura y escritura para la clave pública (anon)
 CREATE POLICY "Allow anon all on users" ON public.users FOR ALL TO anon USING (true) WITH CHECK (true);
@@ -96,6 +111,7 @@ CREATE POLICY "Allow anon all on camping_catalog" ON public.camping_catalog FOR 
 CREATE POLICY "Allow anon all on camping_orders" ON public.camping_orders FOR ALL TO anon USING (true) WITH CHECK (true);
 CREATE POLICY "Allow anon all on desayuno_requests" ON public.desayuno_requests FOR ALL TO anon USING (true) WITH CHECK (true);
 CREATE POLICY "Allow anon all on planta_requests" ON public.planta_requests FOR ALL TO anon USING (true) WITH CHECK (true);
+CREATE POLICY "Allow anon all on sede_dietas" ON public.sede_dietas FOR ALL TO anon USING (true) WITH CHECK (true);
 
 -- -----------------------------------------------------------------------------
 -- SEED DE DATOS INICIALES
@@ -189,4 +205,19 @@ VALUES
   ('req_pln_04', 'Sanitizante para Hortalizas por Inmersión (Clorado)', '4 bidones x 5 Litros', 'Químicos Bromatológicos', 'Alta', 'Pendiente', 'Estela Romero (Jefa de Planta)', 'Protocolo obligatorio de lavado y desinfección de ensaladas.', '2026-10-08'),
   ('req_pln_05', 'Cofias y Barbijos Descartables de Cocina', '10 cajas x 100 un.', 'Indumentaria & EPP', 'Media', 'Despachado', 'Estela Romero (Jefa de Planta)', 'Reposición para el turno mañana y tarde de cocina.', '2026-10-07')
 ON CONFLICT (id) DO NOTHING;
+
+-- 6. Censo Dietético Diario por Sede (Generales, Diabéticos, Celíacos, Sin Lactosa)
+INSERT INTO public.sede_dietas (sede_name, generales, diabeticos, celiacos, sin_lactosa, observaciones, updated_by)
+VALUES
+  ('Sede Colón', 180, 12, 8, 15, '3 comensales con alergia a frutos secos notificados a cocina.', 'Martín Gómez (Referente)'),
+  ('Sede Rivadavia', 220, 15, 11, 18, 'Padrón estival verificado con certificados médicos.', 'Gonzalo Pérez (Referente)'),
+  ('Sede Zonda', 140, 9, 6, 10, 'Control diario de raciones para viandas frías y calientes.', 'Valeria Luna (Referente)')
+ON CONFLICT (sede_name) DO UPDATE SET
+  generales = EXCLUDED.generales,
+  diabeticos = EXCLUDED.diabeticos,
+  celiacos = EXCLUDED.celiacos,
+  sin_lactosa = EXCLUDED.sin_lactosa,
+  observaciones = EXCLUDED.observaciones,
+  updated_by = EXCLUDED.updated_by,
+  updated_at = timezone('utc'::text, now());
 

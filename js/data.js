@@ -627,6 +627,117 @@ export class DepositoStore {
   }
 }
 
+// ==========================================================================
+// SEDE STORE - CENSO DIETÉTICO (GENERALES, DIABÉTICOS, CELÍACOS, SIN LACTOSA)
+// ==========================================================================
+
+const SEDE_DIETAS_KEY = 'seralico_sede_dietas';
+
+const INITIAL_SEDE_DIETAS = {
+  'Sede Colón': {
+    generales: 180,
+    diabeticos: 12,
+    celiacos: 8,
+    sinLactosa: 15,
+    observaciones: '3 comensales con alergia a frutos secos notificados a cocina.',
+    updatedBy: 'Martín Gómez (Referente)',
+    updatedAt: '2026-10-08T18:30:00Z'
+  },
+  'Sede Rivadavia': {
+    generales: 220,
+    diabeticos: 15,
+    celiacos: 11,
+    sinLactosa: 18,
+    observaciones: 'Padrón estival verificado con certificados médicos.',
+    updatedBy: 'Gonzalo Pérez (Referente)',
+    updatedAt: '2026-10-08T18:30:00Z'
+  },
+  'Sede Zonda': {
+    generales: 140,
+    diabeticos: 9,
+    celiacos: 6,
+    sinLactosa: 10,
+    observaciones: 'Control diario de raciones para viandas frías y calientes.',
+    updatedBy: 'Valeria Luna (Referente)',
+    updatedAt: '2026-10-08T18:30:00Z'
+  }
+};
+
+export class SedeStore {
+  static getAllDietas() {
+    try {
+      const stored = localStorage.getItem(SEDE_DIETAS_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed['Sede Colón']) return parsed;
+      }
+    } catch (e) {
+      console.warn('Error reading sede dietas from storage:', e);
+    }
+    SedeStore.saveAllDietas(INITIAL_SEDE_DIETAS);
+    return INITIAL_SEDE_DIETAS;
+  }
+
+  static saveAllDietas(dietasMap) {
+    localStorage.setItem(SEDE_DIETAS_KEY, JSON.stringify(dietasMap));
+  }
+
+  static getDietas(sedeName) {
+    const all = SedeStore.getAllDietas();
+    return all[sedeName] || {
+      generales: 100,
+      diabeticos: 5,
+      celiacos: 5,
+      sinLactosa: 5,
+      observaciones: '',
+      updatedBy: 'Referente de Sede',
+      updatedAt: new Date().toISOString()
+    };
+  }
+
+  static saveDietas(sedeName, data) {
+    const all = SedeStore.getAllDietas();
+    all[sedeName] = {
+      generales: parseInt(data.generales) || 0,
+      diabeticos: parseInt(data.diabeticos) || 0,
+      celiacos: parseInt(data.celiacos) || 0,
+      sinLactosa: parseInt(data.sinLactosa) || 0,
+      observaciones: data.observaciones || '',
+      updatedBy: data.updatedBy || 'Referente de Sede',
+      updatedAt: new Date().toISOString()
+    };
+    SedeStore.saveAllDietas(all);
+
+    // Sync to Supabase
+    SupabaseService.upsertSedeDietas(sedeName, all[sedeName]).catch(err => 
+      console.warn('Supabase async sync sede dietas error:', err)
+    );
+    return all[sedeName];
+  }
+
+  static getSedeOrders(sedeName) {
+    const allOrders = DepositoStore.getCampingOrders();
+    return allOrders[sedeName] || {};
+  }
+
+  static saveSedeOrder(sedeName, productId, quantity) {
+    DepositoStore.updateCampingOrderQty(sedeName, productId, quantity);
+  }
+
+  static saveBulkSedeOrders(sedeName, ordersMap) {
+    const allOrders = DepositoStore.getCampingOrders();
+    allOrders[sedeName] = { ...ordersMap };
+    DepositoStore.saveCampingOrders(allOrders);
+
+    // Sync each product in background
+    Object.keys(ordersMap).forEach(prdId => {
+      SupabaseService.updateCampingOrder(sedeName, prdId, ordersMap[prdId]).catch(err =>
+        console.warn('Supabase bulk order sync error:', err)
+      );
+    });
+  }
+}
+
 /**
  * Global Synchronizer to pull fresh data from Supabase
  */
@@ -635,12 +746,13 @@ export class DataSync {
     if (!SupabaseService.isConfigured()) return { synced: false, reason: 'unconfigured' };
 
     try {
-      const [remoteUsers, remoteCatalog, remoteOrders, remoteDesayuno, remotePlanta] = await Promise.all([
+      const [remoteUsers, remoteCatalog, remoteOrders, remoteDesayuno, remotePlanta, remoteDietas] = await Promise.all([
         SupabaseService.fetchUsers(),
         SupabaseService.fetchCatalog(),
         SupabaseService.fetchCampingOrders(),
         SupabaseService.fetchDesayunoRequests(),
-        SupabaseService.fetchPlantaRequests()
+        SupabaseService.fetchPlantaRequests(),
+        SupabaseService.fetchSedeDietas()
       ]);
 
       if (remoteUsers && remoteUsers.length > 0) UserStore.saveUsers(remoteUsers);
@@ -648,6 +760,7 @@ export class DataSync {
       if (remoteOrders && Object.keys(remoteOrders).length > 0) DepositoStore.saveCampingOrders(remoteOrders);
       if (remoteDesayuno && remoteDesayuno.length > 0) DepositoStore.saveDesayunoRequests(remoteDesayuno);
       if (remotePlanta && remotePlanta.length > 0) DepositoStore.savePlantaRequests(remotePlanta);
+      if (remoteDietas && Object.keys(remoteDietas).length > 0) SedeStore.saveAllDietas(remoteDietas);
 
       return { synced: true };
     } catch (e) {
@@ -656,5 +769,6 @@ export class DataSync {
     }
   }
 }
+
 
 
