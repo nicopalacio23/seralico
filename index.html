@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seralico — Gestión Interna</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- Google Fonts: Plus Jakarta Sans, Playball for brand wordmark, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playball&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/deposito.css">
+</head>
+<body>
+  
+  <div class="bg-grid-pattern"></div>
+
+  <!-- =========================================================================
+       HEADER
+       ========================================================================= -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        
+        <!-- Seralico Brand Identity -->
+        <a href="#hub" class="brand-identity" aria-label="Seralico Gestión Interna">
+          <div class="brand-wordmark-wrap">
+            <span class="brand-wordmark">Seralico</span>
+            <span class="brand-claim">servicio argentino de limpieza y comida</span>
+          </div>
+          <div class="brand-divider"></div>
+          <span class="brand-scope-tag">Red Interna</span>
+        </a>
+
+        <!-- Header Right Controls -->
+        <div class="header-telemetry">
+          
+          <div class="system-clock font-mono" id="telemetry-clock">
+            ARG 00:00:00
+          </div>
+
+          <!-- Theme Toggle Button -->
+          <button class="btn-icon-control" id="btn-theme-toggle" aria-label="Cambiar tema">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       VIEW 1: MINIMALIST OPERATIONAL HUB (ICON + NAME ONLY)
+       ========================================================================= -->
+  <main id="hub-view" class="hub-main-wrap">
+    <div class="hub-center-container">
+      
+      <div class="hub-header-minimal">
+        <h1 class="hub-title-minimal">Módulos de Gestión</h1>
+        <p class="hub-sub-minimal">Seleccione un módulo para autenticarse e ingresar</p>
+      </div>
+
+      <!-- 3 Minimalist Module Tiles (Icon + Name) -->
+      <div class="modules-grid-minimal">
+        
+        <!-- 1. CONTROL DE CALIDAD (HOSPITALES) -->
+        <div class="module-tile" data-action="open-module" data-module="calidad" role="button" tabindex="0" aria-label="Ingresar a Control de Calidad">
+          <div class="module-tile-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+          </div>
+          <h2 class="module-tile-name">Control de Calidad</h2>
+        </div>
+
+        <!-- 2. CONTROL DE STOCK (HOSPITALES) -->
+        <div class="module-tile" data-action="open-module" data-module="stock" role="button" tabindex="0" aria-label="Ingresar a Control de Stock">
+          <div class="module-tile-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <h2 class="module-tile-name">Control de Stock</h2>
+        </div>
+
+        <!-- 3. COLONIAS DE VERANO (INDEPENDIENTE) -->
+        <div class="module-tile" data-action="open-module" data-module="colonias" role="button" tabindex="0" aria-label="Ingresar a Colonias de Verano">
+          <div class="module-tile-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </div>
+          <h2 class="module-tile-name">Colonias de Verano</h2>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       VIEW 2: DEDICATED AUTHENTICATION TERMINAL (LOGIN)
+       ========================================================================= -->
+  <section id="auth-view" class="auth-view-wrapper" style="display: none;">
+    
+    <!-- Top Bar in Auth -->
+    <div class="auth-navbar">
+      <button class="auth-back-link font-mono" id="btn-back-to-hub">
+        <span>← Volver al Panel Principal</span>
+      </button>
+
+      <div class="brand-wordmark-wrap" style="align-items: flex-end;">
+        <span class="brand-wordmark" style="font-size: 22px;">Seralico</span>
+        <span class="brand-claim" style="font-size: 7px;">portal de acceso seguro</span>
+      </div>
+    </div>
+
+    <!-- Auth Terminal Center Box -->
+    <div class="auth-container">
+      <div class="auth-card-terminal">
+        
+        <!-- Terminal Header -->
+        <div class="auth-terminal-header">
+          <div>
+            <div class="auth-terminal-meta">
+              <span class="auth-code-tag font-mono" id="auth-module-code">MOD-HOSP-QA</span>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">// AUTENTICACIÓN</span>
+            </div>
+            <h2 class="auth-terminal-title" id="auth-module-title">Control de Calidad</h2>
+            <p class="auth-terminal-sub" id="auth-module-sub">Gestión Hospitalaria (Calidad + Stock unificados)</p>
+          </div>
+        </div>
+
+        <!-- Scope Explanation Banner -->
+        <div id="auth-scope-banner" style="background: var(--bg-surface-subtle); border-bottom: 1px solid var(--border-subtle); padding: 0.75rem 1.75rem; font-size: 0.78rem; color: var(--text-secondary);">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- Module Selector Pills inside Auth -->
+        <div class="auth-module-selector-bar" role="tablist">
+          <div class="auth-module-pill active font-mono" data-module="calidad">
+            01 CALIDAD
+          </div>
+          <div class="auth-module-pill font-mono" data-module="stock">
+            02 STOCK
+          </div>
+          <div class="auth-module-pill font-mono" data-module="colonias">
+            03 COLONIAS
+          </div>
+        </div>
+
+        <!-- Auth Form Body -->
+        <form class="auth-form-body" id="auth-form">
+          
+          <!-- Username -->
+          <div class="form-field">
+            <label class="form-label" for="auth-username">Usuario Corporativo / Legajo</label>
+            <div class="form-input-wrap">
+              <input type="text" id="auth-username" class="form-input font-mono" placeholder="usuario@seralico.com.ar" required autocomplete="username">
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-field">
+            <label class="form-label" for="auth-password">Clave de Acceso</label>
+            <div class="form-input-wrap">
+              <input type="password" id="auth-password" class="form-input font-mono" placeholder="••••••••••••" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-pwd" id="btn-toggle-password" aria-label="Mostrar u ocultar clave">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sede / Camping Selector -->
+          <div class="form-field">
+            <label class="form-label" for="auth-sede" id="label-auth-sede">Hospital / Sede Operativa</label>
+            <div class="form-input-wrap">
+              <select id="auth-sede" class="form-select">
+                <!-- Dynamically populated per module -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Extra Row -->
+          <div class="form-extras-row">
+            <label class="checkbox-custom-label">
+              <input type="checkbox" checked style="accent-color: var(--brand-navy-900);">
+              <span>Recordar terminal</span>
+            </label>
+            <a href="#" onclick="alert('Contacte al Superusuario de Seralico para el restablecimiento de su clave.'); return false;" style="font-size: 0.78rem; color: var(--text-muted);">¿Olvidó su clave?</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-solid-dark" style="width: 100%; padding: 0.85rem;" id="btn-auth-submit">
+            <span class="btn-label font-mono">Iniciar Sesión en Control de Calidad</span>
+            <span class="font-mono">→</span>
+          </button>
+
+          <!-- Quick Test Credentials Chips -->
+          <div style="margin-top: 1.25rem; padding: 0.85rem 1rem; background: var(--bg-surface-subtle); border: 1px dashed var(--border-strong); border-radius: var(--radius-xs);" id="auth-demo-chips">
+            <!-- Dynamically populated per module -->
+          </div>
+
+        </form>
+
+        <!-- Terminal Footer -->
+        <div class="auth-terminal-foot">
+          <span>ENCRIPTACIÓN SSL 256-BIT</span>
+          <span>SERALICO INTERNAL</span>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       VIEW 3: SUPERUSER USER MANAGEMENT CONSOLE (PANEL DE SUPERUSUARIO)
+       ========================================================================= -->
+  <section id="admin-view" class="admin-view-wrapper" style="display: none;">
+    
+    <!-- Top Bar in Admin -->
+    <div class="admin-navbar">
+      <button class="auth-back-link font-mono" id="btn-admin-back">
+        <span>← Volver al Panel Principal</span>
+      </button>
+
+      <div class="brand-wordmark-wrap" style="align-items: flex-end;">
+        <span class="brand-wordmark" style="font-size: 22px;">Seralico</span>
+        <span class="brand-claim" style="font-size: 7px; color: var(--brand-blue);">superusuario / gestión de accesos</span>
+      </div>
+    </div>
+
+    <!-- Admin Main Container -->
+    <div class="container admin-container">
+      
+      <!-- Admin Header Row -->
+      <div class="admin-header-row">
+        <div class="admin-title-wrap">
+          <h1>Administración de Usuarios y Módulos</h1>
+          <p>Superusuario exclusivo para la creación, asignación de roles y control de credenciales de la empresa.</p>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <button class="btn btn-outline-subtle" id="btn-open-supabase-modal" style="border-color: var(--brand-blue); color: var(--brand-blue);">
+            <span class="font-mono">⚡</span>
+            <span>Conexión Supabase</span>
+          </button>
+          <button class="btn btn-solid-dark" id="btn-open-create-user">
+            <span class="font-mono">+</span>
+            <span>Crear Nuevo Usuario</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Telemetry Stats Bar -->
+      <div class="admin-stats-bar">
+        <div class="admin-stat-card">
+          <div class="admin-stat-val" id="admin-stat-total">0</div>
+          <div class="admin-stat-lbl">Total Usuarios Activos</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-val" style="color: var(--mod-qa-accent);" id="admin-stat-hospitales">0</div>
+          <div class="admin-stat-lbl">Hospitales (Calidad + Stock)</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-val" style="color: var(--brand-blue);" id="admin-stat-colonias">0</div>
+          <div class="admin-stat-lbl">Colonias de Verano (6 Roles)</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-val" id="admin-stat-super">0</div>
+          <div class="admin-stat-lbl">Superadministradores</div>
+        </div>
+      </div>
+
+      <!-- Controls & Filter Bar -->
+      <div class="admin-controls-bar">
+        <div class="admin-filter-tabs">
+          <button class="admin-tab-btn active" data-filter="all">Todos los Usuarios</button>
+          <button class="admin-tab-btn" data-filter="hospitales">Hospitales (Calidad + Stock)</button>
+          <button class="admin-tab-btn" data-filter="colonias">Colonias de Verano</button>
+          <button class="admin-tab-btn" data-filter="superadmin">Superusuarios</button>
+        </div>
+      </div>
+
+      <!-- User Accounts Table Card -->
+      <div class="admin-table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Usuario / Nombre</th>
+              <th>Módulo / Ámbito</th>
+              <th>Rol / Función</th>
+              <th>Sede / Ubicación</th>
+              <th>Estado</th>
+              <th style="text-align: right;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="admin-users-tbody">
+            <!-- Dynamically populated by admin.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       VIEW 4: COLONIAS DE VERANO — DEPOSITO CENTRAL WORKSPACE
+       ========================================================================= -->
+  <section id="deposito-view" class="deposito-wrapper" style="display: none;">
+    
+    <!-- Top Navbar -->
+    <div class="deposito-navbar">
+      <button class="auth-back-link font-mono" id="btn-deposito-back">
+        <span>← Volver al Panel Principal</span>
+      </button>
+
+      <div class="deposito-user-badge">
+        <span class="badge-role badge-role-colonias font-mono">📦 DEPÓSITO CENTRAL</span>
+        <span style="font-weight: 600; color: var(--text-primary);">Gonzalo Fernández</span>
+        <span style="color: var(--text-muted);">// Parque Roca Logística</span>
+      </div>
+    </div>
+
+    <!-- Main Workspace Container -->
+    <div class="container deposito-container">
+      
+      <!-- Deposito Tab Navigation -->
+      <div class="deposito-tabs-nav">
+        <button class="deposito-tab-btn active" data-tab="catalogo">
+          <span>📦 Catálogo Insumos Campings</span>
+          <span class="tab-counter" id="tab-count-catalog">0</span>
+        </button>
+
+        <button class="deposito-tab-btn" data-tab="matriz">
+          <span>📋 Matriz de Pedidos por Camping (Imprimible)</span>
+          <span class="tab-counter" id="tab-count-matrix">6 Sedes</span>
+        </button>
+
+        <button class="deposito-tab-btn" data-tab="desayuno">
+          <span>☕ Solicitudes Sector Desayuno</span>
+          <span class="tab-counter" id="tab-count-desayuno">0</span>
+        </button>
+
+        <button class="deposito-tab-btn" data-tab="planta">
+          <span>🍳 Solicitudes Planta de Elaboración</span>
+          <span class="tab-counter" id="tab-count-planta">0</span>
+        </button>
+      </div>
+
+      <!-- ---------------------------------------------------------------------
+           PANEL 1: CATALOGO DE PRODUCTOS PARA CAMPINGS
+           --------------------------------------------------------------------- -->
+      <div class="deposito-section-panel active" id="catalogo-panel">
+        
+        <div class="section-toolbar">
+          <div class="section-toolbar-left">
+            <div>
+              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em;">Catálogo de Insumos para Campings</h2>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">Productos y artículos que los Referentes de cada camping pueden solicitar desde su usuario.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <div class="search-input-wrap">
+              <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" class="search-input" id="catalog-search-input" placeholder="Buscar producto o código...">
+            </div>
+
+            <button class="btn btn-solid-dark" id="btn-open-add-product">
+              <span class="font-mono">+</span>
+              <span>Crear Producto</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="deposito-card-table">
+          <table class="deposito-table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Nombre del Producto / Artículo</th>
+                <th>Categoría</th>
+                <th>Presentación / Unidad</th>
+                <th>Stock en Depósito</th>
+                <th style="text-align: right;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="catalog-products-tbody">
+              <!-- Dynamically populated by deposito.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- ---------------------------------------------------------------------
+           PANEL 2: PEDIDOS POR CAMPING (VISTA INDIVIDUAL Y MATRIZ GENERAL)
+           --------------------------------------------------------------------- -->
+      <div class="deposito-section-panel" id="matriz-panel">
+        
+        <!-- Sheet Header (Only visible on print) -->
+        <div class="print-header-sheet">
+          <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <div style="font-family: var(--font-brand); font-size: 26pt; color: #000; line-height: 1;">Seralico</div>
+              <div style="font-size: 8.5pt; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Servicio Argentino de Limpieza y Comida — Colonias de Verano</div>
+              <div style="font-size: 13pt; font-weight: bold; margin-top: 6px;" id="print-sheet-title">REMITO INDIVIDUAL DE ENTREGA A CAMPING</div>
+              <div style="font-size: 10pt; font-weight: 600; color: #333;" id="print-sheet-subtitle">SEDE DESTINO: PARQUE SARMIENTO</div>
+            </div>
+            <div style="text-align: right; font-family: monospace; font-size: 8.5pt;">
+              <div>FECHA DE DESPACHO: <span id="print-date-display">08/10/2026</span></div>
+              <div id="print-sede-info">REMITO N° REM-2026 // DEPÓSITO CENTRAL: Parque Roca</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-bar: Camping Selector (Individual vs Matriz) -->
+        <div style="margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <span class="font-mono" style="font-size: 0.72rem; color: var(--brand-blue); text-transform: uppercase; font-weight: 700;">
+                Seleccione Sede para ver o imprimir Remito Individual
+              </span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">
+              💡 Cada camping tiene su remito individual de despacho listo para imprimir.
+            </div>
+          </div>
+
+          <div class="camping-selector-bar" id="camping-selector-pills">
+            <!-- Dynamically populated by deposito.js -->
+          </div>
+        </div>
+
+        <!-- VIEW A: INDIVIDUAL CAMPING REMITTANCE (DEFAULT WHEN A CAMPING IS SELECTED) -->
+        <div id="view-remito-individual" style="display: none;">
+          <div class="remito-individual-header">
+            <div>
+              <div class="remito-meta-tag font-mono">REMITO DE ENTREGA INDIVIDUAL // COLONIAS DE VERANO</div>
+              <h2 style="font-size: 1.35rem; margin: 0.2rem 0;" id="individual-camping-title">Remito de Despacho: Parque Sarmiento</h2>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;" id="individual-camping-sub">Detalle exclusivo de insumos solicitados para entrega individual en esta sede.</p>
+            </div>
+
+            <button class="btn btn-solid-dark" id="btn-print-individual" style="background: var(--brand-navy-900);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>🖨️ Imprimir Remito de este Camping</span>
+            </button>
+          </div>
+
+          <div class="deposito-card-table">
+            <table class="deposito-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Producto / Insumo Solicitado</th>
+                  <th>Presentación</th>
+                  <th style="text-align: center; background: var(--bg-surface-subtle);">Stock Depósito</th>
+                  <th style="text-align: center; background: rgba(2, 132, 199, 0.08); color: var(--brand-blue);">Cantidad Solicitada</th>
+                  <th style="text-align: center;">Estado de Stock</th>
+                </tr>
+              </thead>
+              <tbody id="individual-remito-tbody">
+                <!-- Dynamically populated by deposito.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- VIEW B: CONSOLIDATED MATRIX (ALL CAMPINGS SIDE BY SIDE) -->
+        <div id="view-matrix-all">
+          <div class="section-toolbar">
+            <div>
+              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em;">Matriz Consolidada de Pedidos (Todos los Campings)</h2>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">Tabla comparativa de insumos solicitados camping a la par para logística y carga.</p>
+            </div>
+
+            <button class="btn btn-solid-dark" id="btn-print-matrix" style="background: var(--brand-blue); border-color: var(--brand-blue);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>Imprimir Matriz Consolidada</span>
+            </button>
+          </div>
+
+          <!-- Comparative Table with Campings side-by-side -->
+          <div class="deposito-card-table">
+            <table class="deposito-table matrix-table">
+              <thead id="matrix-campings-thead">
+                <!-- Dynamically populated with columns for each camping -->
+              </thead>
+              <tbody id="matrix-campings-tbody">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Signatures Row for Printable Sheet -->
+        <div class="print-signatures-row">
+          <div class="signature-box">
+            Firma Responsable Depósito Central
+          </div>
+          <div class="signature-box">
+            Firma Chofer / Logística de Entrega
+          </div>
+          <div class="signature-box">
+            Firma Recibido Referente de Camping
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ---------------------------------------------------------------------
+           PANEL 3: SECTOR DESAYUNO (RECEPCIÓN Y DESPACHO DE SOLICITUDES)
+           --------------------------------------------------------------------- -->
+      <div class="deposito-section-panel" id="desayuno-panel">
+        
+        <div class="section-toolbar">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+              <span class="badge-role badge-role-colonias font-mono" style="background: rgba(16, 185, 129, 0.15); color: #059669;">📥 BANDEJA DE ENTRADA</span>
+              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em; margin: 0;">Solicitudes Recibidas del Sector Desayuno</h2>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">
+              El Sector Desayuno envía sus pedidos de materias primas e insumos secos a Depósito Central para su preparación y despacho.
+            </p>
+          </div>
+
+          <button class="btn btn-outline-subtle" id="btn-open-add-desayuno" style="font-size: 0.78rem;">
+            <span class="font-mono">+</span>
+            <span>Simular Solicitud Entrante</span>
+          </button>
+        </div>
+
+        <div class="deposito-card-table">
+          <table class="deposito-table">
+            <thead>
+              <tr>
+                <th>Fecha Ingreso</th>
+                <th>Materia Prima / Insumo Solicitado</th>
+                <th>Cantidad</th>
+                <th>Categoría</th>
+                <th>Solicitante (Sector Desayuno)</th>
+                <th>Estado</th>
+                <th style="text-align: right;">Gestión de Despacho</th>
+              </tr>
+            </thead>
+            <tbody id="desayuno-requests-tbody">
+              <!-- Dynamically populated by deposito.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- ---------------------------------------------------------------------
+           PANEL 4: PLANTA DE ELABORACIÓN (RECEPCIÓN Y DESPACHO DE SOLICITUDES)
+           --------------------------------------------------------------------- -->
+      <div class="deposito-section-panel" id="planta-panel">
+        
+        <div class="section-toolbar">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+              <span class="badge-role badge-role-colonias font-mono" style="background: rgba(16, 185, 129, 0.15); color: #059669;">📥 BANDEJA DE ENTRADA</span>
+              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em; margin: 0;">Solicitudes Recibidas de Planta de Elaboración</h2>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">
+              El Encargado de Planta envía pedidos de materias primas gastronómicas, packaging y químicos a Depósito Central.
+            </p>
+          </div>
+
+          <button class="btn btn-outline-subtle" id="btn-open-add-planta" style="font-size: 0.78rem;">
+            <span class="font-mono">+</span>
+            <span>Simular Solicitud Entrante</span>
+          </button>
+        </div>
+
+        <div class="deposito-card-table">
+          <table class="deposito-table">
+            <thead>
+              <tr>
+                <th>Fecha Ingreso</th>
+                <th>Insumo / Materia Prima Solicitada</th>
+                <th>Cantidad</th>
+                <th>Categoría</th>
+                <th>Solicitante (Encargado Planta)</th>
+                <th>Estado</th>
+                <th style="text-align: right;">Gestión de Despacho</th>
+              </tr>
+            </thead>
+            <tbody id="planta-requests-tbody">
+              <!-- Dynamically populated by deposito.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       MODAL: CREATE PRODUCT FOR CAMPINGS CATALOG
+       ========================================================================= -->
+  <div class="modal-backdrop" id="modal-add-product" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-admin-dialog">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+        <div>
+          <span class="font-mono" style="font-size: 0.72rem; color: var(--brand-blue); text-transform: uppercase; font-weight: 700;">
+            Depósito Central // Catálogo Campings
+          </span>
+          <h3 style="font-size: 1.35rem; margin-top: 0.2rem;">Crear Producto para Campings</h3>
+        </div>
+        <button type="button" class="btn-icon-control" id="btn-close-product-modal" aria-label="Cerrar">
+          &times;
+        </button>
+      </div>
+
+      <form id="form-add-product">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label" for="new-prd-name">Nombre del Producto / Insumo</label>
+            <input type="text" id="new-prd-name" class="form-input" placeholder="ej. Termos Conservadores 20L" required>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-prd-category">Categoría</label>
+            <select id="new-prd-category" class="form-select">
+              <option value="Descartables">Descartables & Vajilla</option>
+              <option value="Limpieza">Higiene & Limpieza</option>
+              <option value="Equipamiento">Equipamiento & Utensilios</option>
+              <option value="Seguridad">Seguridad & Primeros Auxilios</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label" for="new-prd-unit">Unidad de Presentación</label>
+            <input type="text" id="new-prd-unit" class="form-input" placeholder="ej. Bidón 5L, Pack x 100u, Caja" required>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-prd-stock">Stock Inicial en Depósito</label>
+            <input type="number" id="new-prd-stock" class="form-input font-mono" value="50" min="0" required>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); padding: 0.75rem; border-radius: var(--radius-xs); font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+          ✓ Este producto aparecerá disponible inmediatamente para que los Referentes de cada camping puedan incluirlo en sus pedidos periódicos.
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline-subtle" id="btn-cancel-product-modal">Cancelar</button>
+          <button type="submit" class="btn btn-solid-dark">Guardar Producto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: CREATE DESAYUNO REQUEST
+       ========================================================================= -->
+  <div class="modal-backdrop" id="modal-add-desayuno" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-admin-dialog">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+        <div>
+          <span class="font-mono" style="font-size: 0.72rem; color: var(--mod-stk-accent); text-transform: uppercase; font-weight: 700;">
+            Sector Desayuno // Solicitud de Materia Prima
+          </span>
+          <h3 style="font-size: 1.35rem; margin-top: 0.2rem;">Pedir Insumos para Desayunos</h3>
+        </div>
+        <button type="button" class="btn-icon-control" id="btn-close-desayuno-modal" aria-label="Cerrar">&times;</button>
+      </div>
+
+      <form id="form-add-desayuno">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label" for="des-item-name">Materia Prima o Producto Faltante</label>
+            <input type="text" id="des-item-name" class="form-input" placeholder="ej. Leche en Polvo Entera" required>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="des-item-qty">Cantidad Necesaria</label>
+            <input type="text" id="des-item-qty" class="form-input font-mono" placeholder="ej. 5 bolsas x 25 Kg" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label" for="des-item-category">Categoría</label>
+            <select id="des-item-category" class="form-select">
+              <option value="Materia Prima Láctea">Materia Prima Láctea</option>
+              <option value="Materia Prima Seca">Materia Prima Seca</option>
+              <option value="Colaciones">Colaciones & Galletitas</option>
+              <option value="Insumos Descartables">Insumos Descartables</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="des-item-urgency">Prioridad</label>
+            <select id="des-item-urgency" class="form-select">
+              <option value="Alta">Urgente (Próximo turno)</option>
+              <option value="Media" selected>Normal (Ciclo semanal)</option>
+              <option value="Baja">Baja (Reposición pañol)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="des-item-notes">Observaciones / Destino</label>
+          <input type="text" id="des-item-notes" class="form-input" placeholder="ej. Para preparación de chocolatadas en sedes">
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline-subtle" id="btn-cancel-desayuno-modal">Cancelar</button>
+          <button type="submit" class="btn btn-solid-dark">Enviar Pedido a Depósito</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: CREATE PLANTA REQUEST
+       ========================================================================= -->
+  <div class="modal-backdrop" id="modal-add-planta" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-admin-dialog">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+        <div>
+          <span class="font-mono" style="font-size: 0.72rem; color: var(--brand-blue); text-transform: uppercase; font-weight: 700;">
+            Planta de Elaboración // Solicitud de Insumos
+          </span>
+          <h3 style="font-size: 1.35rem; margin-top: 0.2rem;">Pedir Insumos para Cocina Central</h3>
+        </div>
+        <button type="button" class="btn-icon-control" id="btn-close-planta-modal" aria-label="Cerrar">&times;</button>
+      </div>
+
+      <form id="form-add-planta">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label" for="pln-item-name">Insumo o Materia Prima Requerida</label>
+            <input type="text" id="pln-item-name" class="form-input" placeholder="ej. Aceite de Girasol 10L" required>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="pln-item-qty">Cantidad Requerida</label>
+            <input type="text" id="pln-item-qty" class="form-input font-mono" placeholder="ej. 10 bidones x 10L" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label" for="pln-item-category">Categoría</label>
+            <select id="pln-item-category" class="form-select">
+              <option value="Materias Primas Cocina">Materias Primas Cocina</option>
+              <option value="Packaging Viandas">Packaging & Bandejas Viandas</option>
+              <option value="Químicos Bromatológicos">Químicos Bromatológicos</option>
+              <option value="Indumentaria & EPP">Indumentaria & EPP</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="pln-item-urgency">Prioridad</label>
+            <select id="pln-item-urgency" class="form-select">
+              <option value="Alta">Alta (Producción de mañana)</option>
+              <option value="Media" selected>Media (Ciclo semanal)</option>
+              <option value="Baja">Baja (Stock de reserva)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="pln-item-notes">Observaciones / Área de Cocina</label>
+          <input type="text" id="pln-item-notes" class="form-input" placeholder="ej. Sector de cocción y sellado de viandas">
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline-subtle" id="btn-cancel-planta-modal">Cancelar</button>
+          <button type="submit" class="btn btn-solid-dark">Enviar Pedido a Depósito</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: CREATE NEW USER (SUPERUSER MODAL)
+       ========================================================================= -->
+  <div class="modal-backdrop" id="modal-create-user" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-admin-dialog">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+        <div>
+          <span class="font-mono" style="font-size: 0.72rem; color: var(--brand-blue); text-transform: uppercase; font-weight: 700;">
+            Superusuario // Alta de Usuario
+          </span>
+          <h3 style="font-size: 1.35rem; margin-top: 0.2rem;">Crear Usuario para el Sistema</h3>
+        </div>
+        <button type="button" class="btn-icon-control" id="btn-close-create-user-modal" aria-label="Cerrar">
+          &times;
+        </button>
+      </div>
+
+      <form id="form-create-user">
+        
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label" for="new-user-name">Nombre y Apellido / Legajo</label>
+            <input type="text" id="new-user-name" class="form-input" placeholder="ej. Lic. Daniel Romero" required>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-user-username">Usuario / Email Corporativo</label>
+            <input type="text" id="new-user-username" class="form-input font-mono" placeholder="d.romero@seralico.com.ar" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-label" for="new-user-password">Clave de Acceso Inicial</label>
+            <input type="password" id="new-user-password" class="form-input font-mono" value="seralico2026" required>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="new-user-role-type">Ámbito / Módulo Asignado</label>
+            <select id="new-user-role-type" class="form-select">
+              <option value="hospitales">Hospitales (Calidad + Stock unificados)</option>
+              <option value="colonias">Colonias de Verano (Independiente)</option>
+              <option value="superadmin">Superusuario / Administrador General</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Colonias Specific Role Selector -->
+        <div class="form-field" id="group-colonias-role" style="display: none;">
+          <label class="form-label" for="new-user-colonias-role">Rol Específico en Colonias de Verano</label>
+          <select id="new-user-colonias-role" class="form-select">
+            <option value="referente_camping">Referente de Camping / Sede</option>
+            <option value="deposito_central">Depósito Central</option>
+            <option value="planta_elaboracion">Planta de Elaboración</option>
+            <option value="recursos_humanos">Recursos Humanos</option>
+            <option value="auditor">Auditor Bromatológico</option>
+            <option value="sector_desayuno">Sector Desayuno & Meriendas</option>
+          </select>
+        </div>
+
+        <!-- Sede / Location Selector -->
+        <div class="form-field" id="group-user-sede">
+          <label class="form-label" for="new-user-sede" id="label-user-sede">Hospital / Sede Asignada</label>
+          <select id="new-user-sede" class="form-select">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+
+        <!-- Scope Note Helper -->
+        <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); padding: 0.75rem; border-radius: var(--radius-xs); font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 1.5rem;" id="note-module-scope">
+          ✓ Este usuario podrá ingresar tanto a Control de Calidad como a Control de Stock con estas mismas credenciales.
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline-subtle" id="btn-cancel-create-user">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-solid-dark">
+            Guardar Usuario
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: AUTH SUCCESS CONFIRMATION
+       ========================================================================= -->
+  <div class="modal-backdrop" id="auth-success-modal" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--mod-qa-accent); margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;">
+        ● Autenticación Validada
+      </div>
+      <h3 style="font-size: 1.35rem; margin-bottom: 0.4rem;" id="modal-module-title">Módulo Habilitado</h3>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;">
+        Sesión iniciada correctamente en el sistema de Seralico.
+      </p>
+
+      <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); padding: 0.75rem; border-radius: var(--radius-xs); font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-primary); margin-bottom: 1.25rem;" id="modal-user-badge">
+        hospitales@seralico.com.ar // Hospital Central
+      </div>
+
+      <div style="background: var(--bg-surface-subtle); border-left: 3px solid var(--brand-navy-900); padding: 0.85rem; margin-bottom: 1.5rem; text-align: left; font-size: 0.8rem; color: var(--text-secondary);" id="modal-scope-note">
+        <!-- Dynamically populated -->
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap;">
+        <button class="btn btn-solid-dark" style="display: none; background: var(--brand-blue);" id="btn-modal-go-admin">
+          Ir al Panel de Superusuario →
+        </button>
+        <button class="btn btn-outline-subtle" id="btn-modal-logout">
+          Cerrar Sesión
+        </button>
+        <button class="btn btn-solid-dark" id="btn-close-modal">
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: SUPABASE CLOUD DATABASE CONNECTION SETTINGS
+       ========================================================================= -->
+  <div class="modal-backdrop" id="modal-supabase-config" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-admin-dialog">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+        <div>
+          <span class="font-mono" style="font-size: 0.72rem; color: var(--brand-blue); text-transform: uppercase; font-weight: 700;">
+            Base de Datos Cloud // Supabase PostgreSQL
+          </span>
+          <h3 style="font-size: 1.35rem; margin-top: 0.2rem;">Conexión con Supabase</h3>
+        </div>
+        <button type="button" class="btn-icon-control" id="btn-close-supabase-modal" aria-label="Cerrar">&times;</button>
+      </div>
+
+      <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-xs); font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
+          <span style="font-weight: 600; color: var(--text-primary);">Estado de Conexión:</span>
+          <span id="supabase-status-badge" class="font-mono" style="font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); background: rgba(100, 116, 139, 0.15); color: var(--text-muted); font-weight: 700;">
+            ⚪ No configurado
+          </span>
+        </div>
+        <div id="supabase-status-detail" style="font-size: 0.75rem; color: var(--text-muted);">
+          Ingrese las credenciales del proyecto Supabase de su repositorio GitHub <code>seralico</code> para sincronización en tiempo real.
+        </div>
+      </div>
+
+      <form id="form-supabase-config">
+        <div class="form-field">
+          <label class="form-label" for="supabase-project-url">Project URL (URL del Proyecto)</label>
+          <input type="url" id="supabase-project-url" class="form-input font-mono" placeholder="https://xxxxxxxxxxxx.supabase.co" required>
+          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">
+            Encuéntrelo en Supabase Dashboard → Project Settings → API → Project URL
+          </span>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="supabase-anon-key">Project API Key (anon / public key)</label>
+          <input type="password" id="supabase-anon-key" class="form-input font-mono" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." required>
+          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">
+            Encuéntrelo en Supabase Dashboard → Project Settings → API → anon public key
+          </span>
+        </div>
+
+        <div style="background: var(--bg-surface-subtle); border-left: 3px solid var(--brand-blue); padding: 0.75rem; border-radius: var(--radius-xs); font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+          <strong>SQL Migration:</strong> El esquema de tablas completo y datos iniciales está guardado en <code class="font-mono">sql/schema.sql</code> listo para ejecutar en el <em>SQL Editor</em> de Supabase.
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap;">
+          <button type="button" class="btn btn-outline-subtle" id="btn-test-supabase">
+            Probar Conexión
+          </button>
+          <button type="submit" class="btn btn-solid-dark">
+            Guardar y Sincronizar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner font-mono">
+        <div>
+          &copy; 2026 <strong>Seralico S.A.</strong> // Servicio Argentino de Limpieza y Comida
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <span id="footer-supabase-status" style="font-size: 0.72rem; color: var(--text-muted); cursor: pointer;" title="Configurar conexión Supabase">
+            ⚡ Supabase: Verificando...
+          </span>
+          <span>SISTEMA DE CONTROL INTERNO</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+/* ==========================================================================
+   SERALICO - MINIMALIST ENTERPRISE COMPONENTS
+   ========================================================================== */
+
+/* 1. Header Navigation Bar */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: border-color var(--transition-fast);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+
+/* Seralico Logo Wordmark Component */
+.brand-identity {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  text-decoration: none;
+}
+
+.brand-wordmark-wrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brand-wordmark {
+  font-family: var(--font-brand);
+  font-size: 30px;
+  color: var(--brand-navy-900);
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  transition: color var(--transition-fast);
+}
+
+[data-theme="dark"] .brand-wordmark {
+  color: #FFFFFF;
+}
+
+.brand-claim {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: lowercase;
+  letter-spacing: 0.3px;
+  margin-top: -2px;
+}
+
+.brand-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-subtle);
+}
+
+.brand-scope-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.04em;
+}
+
+/* Header Telemetry & Quick Controls */
+.header-telemetry {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.system-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.system-clock {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 768px) {
+  .system-clock, .brand-divider, .brand-scope-tag {
+    display: none;
+  }
+}
+
+/* Theme Toggle Button */
+.btn-icon-control {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.btn-icon-control:hover {
+  background: var(--bg-surface-subtle);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+/* 2. Tactile Minimal Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1.35rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  letter-spacing: -0.01em;
+}
+
+.btn:active {
+  transform: scale(0.985);
+}
+
+.btn-solid-dark {
+  background: var(--brand-navy-900);
+  color: #FFFFFF;
+  border: 1px solid var(--brand-navy-900);
+}
+
+[data-theme="dark"] .btn-solid-dark {
+  background: #FFFFFF;
+  color: var(--brand-navy-950);
+  border-color: #FFFFFF;
+}
+
+.btn-solid-dark:hover {
+  background: var(--brand-navy-800);
+  border-color: var(--brand-navy-800);
+}
+
+[data-theme="dark"] .btn-solid-dark:hover {
+  background: #E2E8F0;
+}
+
+.btn-outline-subtle {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+}
+
+.btn-outline-subtle:hover {
+  background: var(--bg-surface-subtle);
+  border-color: var(--text-primary);
+}
+
+.btn-ghost-minimal {
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 0.5rem 0.75rem;
+}
+
+.btn-ghost-minimal:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-subtle);
+  border-radius: var(--radius-xs);
+}
+
+/* 3. Toast Notifications */
+.toast-container {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  min-width: 300px;
+  max-width: 400px;
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  box-shadow: var(--shadow-hover);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  transform: translateY(12px);
+  opacity: 0;
+  transition: all var(--transition-fast);
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast-content {
+  flex: 1;
+}
+
+.toast-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.toast-message {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.toast-close {
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.toast-close:hover {
+  color: var(--text-primary);
+}
+
+/* 4. Minimalist Footer */
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  padding: 1.5rem 0;
+  margin-top: auto;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
