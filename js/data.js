@@ -515,13 +515,19 @@ export class DepositoStore {
       const stored = localStorage.getItem(CAMPING_ORDERS_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (parsed['Sede Colón']) return parsed;
+        if (typeof parsed === 'object' && parsed !== null) {
+          // Ensure all SEDES_LIST are initialized
+          SEDES_LIST.forEach(s => {
+            if (!parsed[s]) parsed[s] = INITIAL_CAMPING_ORDERS[s] || {};
+          });
+          return parsed;
+        }
       }
     } catch (e) {
       console.warn('Error reading camping orders:', e);
     }
     DepositoStore.saveCampingOrders(INITIAL_CAMPING_ORDERS);
-    return INITIAL_CAMPING_ORDERS;
+    return JSON.parse(JSON.stringify(INITIAL_CAMPING_ORDERS));
   }
 
   static saveCampingOrders(orders) {

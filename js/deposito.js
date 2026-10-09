@@ -451,7 +451,7 @@ export class DepositoController {
           ${item.stock}
         </td>
         <td style="text-align: center;">
-          <input type="number" min="0" class="matrix-qty-input font-mono" style="width: 65px;" value="${item.requestedQty}" data-camping="${camping}" data-pid="${item.id}">
+          <input type="number" min="0" class="matrix-qty-input font-mono" style="width: 65px;" value="${item.requestedQty}" data-camping="${sede}" data-pid="${item.id}">
         </td>
         <td style="text-align: center;">
           <span class="status-pill-badge ${isDeficit ? 'status-pendiente' : 'status-despachado'}">

@@ -349,6 +349,13 @@ export class SedeController {
         } else {
           tr.classList.remove('tr-selected-order');
         }
+
+        // Real-time synchronization with DepositoStore and Supabase
+        SedeStore.saveSedeOrder(this.currentSede, prd.id, clean);
+        if (this.app && this.app.depositoController) {
+          this.app.depositoController.renderAll();
+        }
+
         this.renderHeaderAndStats();
       };
 
@@ -364,8 +371,8 @@ export class SedeController {
   saveOrder() {
     SedeStore.saveBulkSedeOrders(this.currentSede, this.orderDraft);
     
-    // If DepositoController is active on page, refresh it
-    if (this.app.depositoController) {
+    // Refresh Depósito Central view
+    if (this.app && this.app.depositoController) {
       this.app.depositoController.renderAll();
     }
 
@@ -378,8 +385,8 @@ export class SedeController {
     this.renderCatalogTable();
 
     this.app.showToast({
-      title: 'Pedido Enviado a Depósito',
-      message: `El pedido de ${this.currentSede} ha sido registrado y sincronizado en Depósito Central.`
+      title: 'Pedido Sincronizado',
+      message: `El pedido de ${this.currentSede} se actualizó en tiempo real y ya está disponible en el panel de Depósito Central.`
     });
   }
 
