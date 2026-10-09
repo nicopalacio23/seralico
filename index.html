@@ -357,13 +357,13 @@
       <!-- Deposito Tab Navigation -->
       <div class="deposito-tabs-nav">
         <button class="deposito-tab-btn active" data-tab="catalogo">
-          <span>📦 Catálogo Insumos Campings</span>
+          <span>📦 Catálogo Insumos Sedes</span>
           <span class="tab-counter" id="tab-count-catalog">0</span>
         </button>
 
         <button class="deposito-tab-btn" data-tab="matriz">
-          <span>📋 Matriz de Pedidos por Camping (Imprimible)</span>
-          <span class="tab-counter" id="tab-count-matrix">6 Sedes</span>
+          <span>📋 Pedidos y Remitos por Sede (Imprimible)</span>
+          <span class="tab-counter" id="tab-count-matrix">3 Sedes</span>
         </button>
 
         <button class="deposito-tab-btn" data-tab="desayuno">
@@ -378,15 +378,15 @@
       </div>
 
       <!-- ---------------------------------------------------------------------
-           PANEL 1: CATALOGO DE PRODUCTOS PARA CAMPINGS
+           PANEL 1: CATALOGO DE PRODUCTOS PARA SEDES
            --------------------------------------------------------------------- -->
       <div class="deposito-section-panel active" id="catalogo-panel">
         
         <div class="section-toolbar">
           <div class="section-toolbar-left">
             <div>
-              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em;">Catálogo de Insumos para Campings</h2>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">Productos y artículos que los Referentes de cada camping pueden solicitar desde su usuario.</p>
+              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em;">Catálogo de Insumos para Sedes</h2>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">Productos y artículos que los Referentes de cada sede pueden solicitar desde su usuario.</p>
             </div>
           </div>
 
@@ -427,7 +427,7 @@
       </div>
 
       <!-- ---------------------------------------------------------------------
-           PANEL 2: PEDIDOS POR CAMPING (VISTA INDIVIDUAL Y MATRIZ GENERAL)
+           PANEL 2: PEDIDOS POR SEDE (VISTA INDIVIDUAL Y MATRIZ GENERAL)
            --------------------------------------------------------------------- -->
       <div class="deposito-section-panel" id="matriz-panel">
         
@@ -437,8 +437,8 @@
             <div>
               <div style="font-family: var(--font-brand); font-size: 26pt; color: #000; line-height: 1;">Seralico</div>
               <div style="font-size: 8.5pt; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Servicio Argentino de Limpieza y Comida — Colonias de Verano</div>
-              <div style="font-size: 13pt; font-weight: bold; margin-top: 6px;" id="print-sheet-title">REMITO INDIVIDUAL DE ENTREGA A CAMPING</div>
-              <div style="font-size: 10pt; font-weight: 600; color: #333;" id="print-sheet-subtitle">SEDE DESTINO: PARQUE SARMIENTO</div>
+              <div style="font-size: 13pt; font-weight: bold; margin-top: 6px;" id="print-sheet-title">REMITO INDIVIDUAL DE ENTREGA A SEDE</div>
+              <div style="font-size: 10pt; font-weight: 600; color: #333;" id="print-sheet-subtitle">SEDE DESTINO: SEDE COLÓN</div>
             </div>
             <div style="text-align: right; font-family: monospace; font-size: 8.5pt;">
               <div>FECHA DE DESPACHO: <span id="print-date-display">08/10/2026</span></div>
@@ -447,16 +447,16 @@
           </div>
         </div>
 
-        <!-- Sub-bar: Camping Selector (Individual vs Matriz) -->
+        <!-- Sub-bar: Sede Selector (Individual vs Matriz) -->
         <div style="margin-bottom: 1.25rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
             <div>
               <span class="font-mono" style="font-size: 0.72rem; color: var(--brand-blue); text-transform: uppercase; font-weight: 700;">
-                Seleccione Sede para ver o imprimir Remito Individual
+                Seleccione la Sede para ver o imprimir su Remito Individual
               </span>
             </div>
             <div style="font-size: 0.75rem; color: var(--text-muted);">
-              💡 Cada camping tiene su remito individual de despacho listo para imprimir.
+              💡 Cada sede tiene su remito individual de despacho listo para imprimir.
             </div>
           </div>
 
@@ -465,12 +465,12 @@
           </div>
         </div>
 
-        <!-- VIEW A: INDIVIDUAL CAMPING REMITTANCE (DEFAULT WHEN A CAMPING IS SELECTED) -->
+        <!-- VIEW A: INDIVIDUAL SEDE REMITTANCE (DEFAULT WHEN A SEDE IS SELECTED) -->
         <div id="view-remito-individual" style="display: none;">
           <div class="remito-individual-header">
             <div>
               <div class="remito-meta-tag font-mono">REMITO DE ENTREGA INDIVIDUAL // COLONIAS DE VERANO</div>
-              <h2 style="font-size: 1.35rem; margin: 0.2rem 0;" id="individual-camping-title">Remito de Despacho: Parque Sarmiento</h2>
+              <h2 style="font-size: 1.35rem; margin: 0.2rem 0;" id="individual-camping-title">Remito de Despacho: Sede Colón</h2>
               <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;" id="individual-camping-sub">Detalle exclusivo de insumos solicitados para entrega individual en esta sede.</p>
             </div>
 
@@ -480,7 +480,7 @@
                 <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                 <rect x="6" y="14" width="12" height="8"></rect>
               </svg>
-              <span>🖨️ Imprimir Remito de este Camping</span>
+              <span>🖨️ Imprimir Remito de esta Sede</span>
             </button>
           </div>
 
@@ -503,12 +503,12 @@
           </div>
         </div>
 
-        <!-- VIEW B: CONSOLIDATED MATRIX (ALL CAMPINGS SIDE BY SIDE) -->
+        <!-- VIEW B: CONSOLIDATED MATRIX (ALL SEDES SIDE BY SIDE) -->
         <div id="view-matrix-all">
           <div class="section-toolbar">
             <div>
-              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em;">Matriz Consolidada de Pedidos (Todos los Campings)</h2>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">Tabla comparativa de insumos solicitados camping a la par para logística y carga.</p>
+              <h2 style="font-size: 1.35rem; letter-spacing: -0.02em;">Matriz Consolidada de Pedidos (Todas las Sedes)</h2>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">Tabla comparativa de insumos solicitados sede a la par para logística y carga.</p>
             </div>
 
             <button class="btn btn-solid-dark" id="btn-print-matrix" style="background: var(--brand-blue); border-color: var(--brand-blue);">
@@ -521,11 +521,11 @@
             </button>
           </div>
 
-          <!-- Comparative Table with Campings side-by-side -->
+          <!-- Comparative Table with Sedes side-by-side -->
           <div class="deposito-card-table">
             <table class="deposito-table matrix-table">
               <thead id="matrix-campings-thead">
-                <!-- Dynamically populated with columns for each camping -->
+                <!-- Dynamically populated with columns for each sede -->
               </thead>
               <tbody id="matrix-campings-tbody">
                 <!-- Dynamically populated rows -->
@@ -543,7 +543,7 @@
             Firma Chofer / Logística de Entrega
           </div>
           <div class="signature-box">
-            Firma Recibido Referente de Camping
+            Firma Recibido Responsable de Sede
           </div>
         </div>
 

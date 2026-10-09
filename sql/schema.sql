@@ -106,15 +106,21 @@ INSERT INTO public.users (id, name, username, password, role_type, colonias_role
 VALUES
   ('usr_superadmin', 'Administrador General Seralico', 'superadmin@seralico.com.ar', 'seralico2026', 'superadmin', NULL, 'Superusuario / Admin General', 'all', 'Sede Central CABA', true),
   ('usr_hospitales_1', 'Lic. Laura Benítez (Control Hospitales)', 'hospitales@seralico.com.ar', 'seralico2026', 'hospitales', NULL, 'Supervisor Hospitalario (Calidad + Stock)', 'hospitales', 'Hospital Central de Agudos - Sede Norte', true),
-  ('usr_col_referente', 'Martín Gómez (Coordinador de Sede)', 'referente.camping@seralico.com.ar', 'seralico2026', 'colonias', 'referente_camping', 'Referente de Camping / Sede', 'colonias', 'Parque Sarmiento (CABA)', true),
+  ('usr_col_ref_colon', 'Martín Gómez (Referente Sede Colón)', 'referente.colon@seralico.com.ar', 'seralico2026', 'colonias', 'referente_camping', 'Referente de Sede (Colón)', 'colonias', 'Sede Colón', true),
+  ('usr_col_ref_rivadavia', 'Gonzalo Pérez (Referente Sede Rivadavia)', 'referente.rivadavia@seralico.com.ar', 'seralico2026', 'colonias', 'referente_camping', 'Referente de Sede (Rivadavia)', 'colonias', 'Sede Rivadavia', true),
+  ('usr_col_ref_zonda', 'Valeria Luna (Referente Sede Zonda)', 'referente.zonda@seralico.com.ar', 'seralico2026', 'colonias', 'referente_camping', 'Referente de Sede (Zonda)', 'colonias', 'Sede Zonda', true),
   ('usr_col_deposito', 'Gonzalo Fernández (Pañol Central)', 'deposito.colonias@seralico.com.ar', 'seralico2026', 'colonias', 'deposito_central', 'Depósito Central', 'colonias', 'Parque Roca (Centro Logístico)', true),
   ('usr_col_planta', 'Estela Romero (Jefa de Cocina Central)', 'planta.colonias@seralico.com.ar', 'seralico2026', 'colonias', 'planta_elaboracion', 'Planta de Elaboración', 'colonias', 'Planta Gastronómica y Lavandería Central', true),
   ('usr_col_rrhh', 'Carolina Morales (Personal Estival)', 'rrhh.colonias@seralico.com.ar', 'seralico2026', 'colonias', 'recursos_humanos', 'Recursos Humanos', 'colonias', 'Sede Central CABA', true),
   ('usr_col_auditor', 'Dr. Claudio Rossi (Bromatología)', 'auditor.colonias@seralico.com.ar', 'seralico2026', 'colonias', 'auditor', 'Auditor Bromatológico', 'colonias', 'Todas las sedes estivales', true),
-  ('usr_col_desayuno', 'Mariana López (Sector Desayunos)', 'desayuno.colonias@seralico.com.ar', 'seralico2026', 'colonias', 'sector_desayuno', 'Sector Desayuno & Meriendas', 'colonias', 'Parque Sarmiento (CABA)', true)
-ON CONFLICT (id) DO NOTHING;
+  ('usr_col_desayuno', 'Mariana López (Sector Desayunos)', 'desayuno.colonias@seralico.com.ar', 'seralico2026', 'colonias', 'sector_desayuno', 'Sector Desayuno & Meriendas', 'colonias', 'Sede Colón', true)
+ON CONFLICT (id) DO UPDATE SET
+  name = EXCLUDED.name,
+  username = EXCLUDED.username,
+  sede = EXCLUDED.sede,
+  role_label = EXCLUDED.role_label;
 
--- 2. Catálogo de Insumos para Campings
+-- 2. Catálogo de Insumos para Sedes
 INSERT INTO public.camping_catalog (id, code, name, category, unit, stock, active)
 VALUES
   ('prd_01', 'DESC-01', 'Vasos Descartables 180cc', 'Descartables', 'Pack x 100 un.', 350, true),
@@ -132,42 +138,42 @@ VALUES
   ('prd_13', 'SEG-02', 'Guantes Descartables de Nitrilo', 'Seguridad', 'Caja x 100 un.', 160, true)
 ON CONFLICT (id) DO NOTHING;
 
--- 3. Pedidos Iniciales por Camping
+-- 3. Pedidos Iniciales por Sede (Sede Colón, Sede Rivadavia, Sede Zonda)
 INSERT INTO public.camping_orders (camping_name, product_id, quantity)
 VALUES
-  ('Parque Sarmiento (CABA)', 'prd_01', 30),
-  ('Parque Sarmiento (CABA)', 'prd_02', 25),
-  ('Parque Sarmiento (CABA)', 'prd_03', 15),
-  ('Parque Sarmiento (CABA)', 'prd_04', 20),
-  ('Parque Sarmiento (CABA)', 'prd_05', 8),
-  ('Parque Sarmiento (CABA)', 'prd_06', 6),
-  ('Parque Sarmiento (CABA)', 'prd_08', 12),
-  ('Parque Sarmiento (CABA)', 'prd_12', 4),
-  ('Parque Sarmiento (CABA)', 'prd_13', 10),
-  ('Club Náutico San Fernando', 'prd_01', 18),
-  ('Club Náutico San Fernando', 'prd_02', 15),
-  ('Club Náutico San Fernando', 'prd_03', 10),
-  ('Club Náutico San Fernando', 'prd_04', 15),
-  ('Club Náutico San Fernando', 'prd_05', 5),
-  ('Polideportivo Municipal Quilmes', 'prd_01', 24),
-  ('Polideportivo Municipal Quilmes', 'prd_02', 20),
-  ('Polideportivo Municipal Quilmes', 'prd_03', 12),
-  ('Polideportivo Municipal Quilmes', 'prd_04', 18),
-  ('Parque Roca (Centro Logístico)', 'prd_01', 14),
-  ('Parque Roca (Centro Logístico)', 'prd_02', 10),
-  ('Parque Roca (Centro Logístico)', 'prd_03', 8),
-  ('Club Banco Nación (Vicente López)', 'prd_01', 16),
-  ('Club Banco Nación (Vicente López)', 'prd_02', 12),
-  ('Club Banco Nación (Vicente López)', 'prd_03', 8),
-  ('Sede Recreativa Ezeiza', 'prd_01', 20),
-  ('Sede Recreativa Ezeiza', 'prd_02', 18),
-  ('Sede Recreativa Ezeiza', 'prd_03', 10)
+  ('Sede Colón', 'prd_01', 30),
+  ('Sede Colón', 'prd_02', 25),
+  ('Sede Colón', 'prd_03', 15),
+  ('Sede Colón', 'prd_04', 20),
+  ('Sede Colón', 'prd_05', 8),
+  ('Sede Colón', 'prd_06', 6),
+  ('Sede Colón', 'prd_08', 12),
+  ('Sede Colón', 'prd_12', 4),
+  ('Sede Colón', 'prd_13', 10),
+  ('Sede Rivadavia', 'prd_01', 24),
+  ('Sede Rivadavia', 'prd_02', 20),
+  ('Sede Rivadavia', 'prd_03', 12),
+  ('Sede Rivadavia', 'prd_04', 18),
+  ('Sede Rivadavia', 'prd_05', 6),
+  ('Sede Rivadavia', 'prd_06', 5),
+  ('Sede Rivadavia', 'prd_08', 10),
+  ('Sede Rivadavia', 'prd_12', 3),
+  ('Sede Rivadavia', 'prd_13', 8),
+  ('Sede Zonda', 'prd_01', 18),
+  ('Sede Zonda', 'prd_02', 15),
+  ('Sede Zonda', 'prd_03', 10),
+  ('Sede Zonda', 'prd_04', 14),
+  ('Sede Zonda', 'prd_05', 5),
+  ('Sede Zonda', 'prd_06', 4),
+  ('Sede Zonda', 'prd_08', 8),
+  ('Sede Zonda', 'prd_12', 2),
+  ('Sede Zonda', 'prd_13', 6)
 ON CONFLICT ON CONSTRAINT unique_camping_product DO UPDATE SET quantity = EXCLUDED.quantity;
 
 -- 4. Solicitudes de Desayuno
 INSERT INTO public.desayuno_requests (id, item, quantity, category, urgency, status, requested_by, notes, date)
 VALUES
-  ('req_des_01', 'Leche en Polvo Entera Fortificada', '6 bolsas x 25 Kg', 'Materia Prima Láctea', 'Alta', 'Pendiente', 'Mariana López (Sector Desayuno)', 'Para provisión del ciclo semanal de desayunos en 6 sedes.', '2026-10-08'),
+  ('req_des_01', 'Leche en Polvo Entera Fortificada', '6 bolsas x 25 Kg', 'Materia Prima Láctea', 'Alta', 'Pendiente', 'Mariana López (Sector Desayuno)', 'Para provisión del ciclo semanal de desayunos en las 3 sedes.', '2026-10-08'),
   ('req_des_02', 'Cacao en Polvo Amargo Institucional', '8 cajas x 5 Kg', 'Materia Prima Seca', 'Media', 'En Preparación', 'Mariana López (Sector Desayuno)', 'Preparación de chocolatadas frías y calientes.', '2026-10-08'),
   ('req_des_03', 'Galletitas Dulces Surtidas (Control Alérgenos)', '40 cajas x 10 Kg', 'Colaciones', 'Alta', 'Pendiente', 'Mariana López (Sector Desayuno)', 'Raciones individuales estandarizadas para merienda.', '2026-10-08'),
   ('req_des_04', 'Azúcar Común Tipo A', '10 bolsas x 50 Kg', 'Materia Prima Seca', 'Baja', 'Despachado', 'Mariana López (Sector Desayuno)', 'Entrega en sector dosificación.', '2026-10-07'),
@@ -183,3 +189,4 @@ VALUES
   ('req_pln_04', 'Sanitizante para Hortalizas por Inmersión (Clorado)', '4 bidones x 5 Litros', 'Químicos Bromatológicos', 'Alta', 'Pendiente', 'Estela Romero (Jefa de Planta)', 'Protocolo obligatorio de lavado y desinfección de ensaladas.', '2026-10-08'),
   ('req_pln_05', 'Cofias y Barbijos Descartables de Cocina', '10 cajas x 100 un.', 'Indumentaria & EPP', 'Media', 'Despachado', 'Estela Romero (Jefa de Planta)', 'Reposición para el turno mañana y tarde de cocina.', '2026-10-07')
 ON CONFLICT (id) DO NOTHING;
+

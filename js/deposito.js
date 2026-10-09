@@ -1,15 +1,10 @@
-/**
- * SERALICO - COLONIAS DE VERANO: DEPOSITO CENTRAL CONTROLLER
- * Supports Individual Camping Remittances & Printable Orders
- */
-
-import { DepositoStore, CAMPINGS_LIST } from './data.js';
+import { DepositoStore, SEDES_LIST } from './data.js';
 
 export class DepositoController {
   constructor(app) {
     this.app = app;
     this.currentTab = 'catalogo';
-    this.selectedCamping = 'all'; // 'all' or specific camping name
+    this.selectedCamping = 'all'; // 'all' or specific sede name
     this.catalogSearchQuery = '';
     this.initElements();
     this.bindEvents();
@@ -266,13 +261,13 @@ export class DepositoController {
     const planta = DepositoStore.getPlantaRequests().filter(r => r.status !== 'Despachado');
 
     if (this.countCatalog) this.countCatalog.textContent = catalog.length;
-    if (this.countMatrix) this.countMatrix.textContent = CAMPINGS_LIST.length + ' Sedes';
+    if (this.countMatrix) this.countMatrix.textContent = SEDES_LIST.length + ' Sedes';
     if (this.countDesayuno) this.countDesayuno.textContent = desayuno.length;
     if (this.countPlanta) this.countPlanta.textContent = planta.length;
   }
 
   /* --------------------------------------------------------------------------
-     1. CATALOG MANAGEMENT (Insumos que pueden pedir los Referentes de Camping)
+     1. CATALOG MANAGEMENT (Insumos que pueden pedir los Referentes de Sede)
      -------------------------------------------------------------------------- */
   renderCatalog() {
     if (!this.catalogTbody) return;
@@ -340,10 +335,10 @@ export class DepositoController {
     this.catalogTbody.querySelectorAll('[data-delete-product]').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-delete-product');
-        if (confirm('¿Desea eliminar este producto del catálogo disponible para los referentes?')) {
+        if (confirm('¿Desea eliminar este producto del catálogo disponible para las sedes?')) {
           DepositoStore.deleteProduct(id);
           this.renderAll();
-          this.app.showToast({ title: 'Producto Removido', message: 'El producto ya no estará disponible para pedidos de camping.' });
+          this.app.showToast({ title: 'Producto Removido', message: 'El producto ya no estará disponible para pedidos de sedes.' });
         }
       });
     });
@@ -366,21 +361,21 @@ export class DepositoController {
 
     this.app.showToast({
       title: 'Producto Creado',
-      message: `"${name}" habilitado para pedidos de los Referentes de Camping.`
+      message: `"${name}" habilitado para pedidos de los Referentes de Sede.`
     });
   }
 
   /* --------------------------------------------------------------------------
-     2. CAMPING ORDERS & INDIVIDUAL PRINTABLE REMITTANCE PER CAMPING
+     2. SEDE ORDERS & INDIVIDUAL PRINTABLE REMITTANCE PER SEDE
      -------------------------------------------------------------------------- */
   renderCampingSelectorPills() {
     if (!this.campingPillsContainer) return;
     this.campingPillsContainer.innerHTML = '';
 
-    // "Todos" pill
+    // "Todas las Sedes" pill
     const allBtn = document.createElement('button');
     allBtn.className = `camping-pill-btn ${this.selectedCamping === 'all' ? 'active' : ''}`;
-    allBtn.textContent = '📊 Vista General (Todos los Campings)';
+    allBtn.textContent = '📊 Vista General (Todas las Sedes)';
     allBtn.addEventListener('click', () => {
       this.selectedCamping = 'all';
       this.renderCampingSelectorPills();
@@ -388,13 +383,13 @@ export class DepositoController {
     });
     this.campingPillsContainer.appendChild(allBtn);
 
-    // Pills for each Camping
-    CAMPINGS_LIST.forEach(camping => {
+    // Pills for each Sede
+    SEDES_LIST.forEach(sede => {
       const btn = document.createElement('button');
-      btn.className = `camping-pill-btn ${this.selectedCamping === camping ? 'active' : ''}`;
-      btn.textContent = `⛺ ${camping.replace(/\s*\([^)]*\)/g, '')}`;
+      btn.className = `camping-pill-btn ${this.selectedCamping === sede ? 'active' : ''}`;
+      btn.textContent = `🏢 ${sede}`;
       btn.addEventListener('click', () => {
-        this.selectedCamping = camping;
+        this.selectedCamping = sede;
         this.renderCampingSelectorPills();
         this.renderCampingOrdersView();
       });
@@ -414,30 +409,30 @@ export class DepositoController {
     }
   }
 
-  renderIndividualRemito(camping) {
+  renderIndividualRemito(sede) {
     if (!this.individualRemitoTbody) return;
 
     if (this.individualCampingTitle) {
-      this.individualCampingTitle.textContent = `Remito de Despacho: ${camping}`;
+      this.individualCampingTitle.textContent = `Remito de Despacho: ${sede}`;
     }
     if (this.individualCampingSubtitle) {
-      this.individualCampingSubtitle.textContent = `Detalle exclusivo de insumos solicitados para entrega individual en esta sede.`;
+      this.individualCampingSubtitle.textContent = `Detalle exclusivo de insumos solicitados para entrega individual en ${sede}.`;
     }
 
     const products = DepositoStore.getCatalog();
     const allOrders = DepositoStore.getCampingOrders();
-    const campingOrders = allOrders[camping] || {};
+    const campingOrders = allOrders[sede] || {};
 
     this.individualRemitoTbody.innerHTML = '';
 
-    // Filter products requested by this camping (or show all with qty)
+    // Filter products requested by this sede (or show all with stock)
     const items = products.map(p => ({
       ...p,
       requestedQty: campingOrders[p.id] || 0
     })).filter(item => item.requestedQty > 0 || item.stock > 0);
 
     if (items.length === 0) {
-      this.individualRemitoTbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">No hay pedidos registrados para este camping.</td></tr>`;
+      this.individualRemitoTbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">No hay pedidos registrados para esta sede.</td></tr>`;
       return;
     }
 
@@ -486,7 +481,7 @@ export class DepositoController {
     const products = DepositoStore.getCatalog();
     const orders = DepositoStore.getCampingOrders();
 
-    // 1. Build Header: [Producto | Unidad | Stock Depósito | Camping 1 | Camping 2 | ... | TOTAL PEDIDO]
+    // 1. Build Header: [Producto | Unidad | Stock Depósito | Sede 1 | Sede 2 | ... | TOTAL PEDIDO]
     let theadHtml = `
       <tr>
         <th style="min-width: 200px;">Producto / Insumo</th>
@@ -494,9 +489,8 @@ export class DepositoController {
         <th style="text-align: center; background: var(--bg-surface-subtle); color: var(--text-primary);">Stock Depósito</th>
     `;
 
-    CAMPINGS_LIST.forEach(camping => {
-      const shortName = camping.replace(/\s*\([^)]*\)/g, '');
-      theadHtml += `<th class="camping-col-header" title="${camping}">⛺ ${shortName}</th>`;
+    SEDES_LIST.forEach(sede => {
+      theadHtml += `<th class="camping-col-header" title="${sede}">🏢 ${sede}</th>`;
     });
 
     theadHtml += `
@@ -511,7 +505,7 @@ export class DepositoController {
     this.matrixTbody.innerHTML = '';
 
     if (products.length === 0) {
-      this.matrixTbody.innerHTML = `<tr><td colspan="${CAMPINGS_LIST.length + 5}" style="text-align: center; padding: 2rem; color: var(--text-muted);">No hay productos registrados en el catálogo.</td></tr>`;
+      this.matrixTbody.innerHTML = `<tr><td colspan="${SEDES_LIST.length + 5}" style="text-align: center; padding: 2rem; color: var(--text-muted);">No hay productos registrados en el catálogo.</td></tr>`;
       return;
     }
 
@@ -520,14 +514,14 @@ export class DepositoController {
       let totalQty = 0;
       let campingCellsHtml = '';
 
-      CAMPINGS_LIST.forEach(camping => {
-        const campingOrders = orders[camping] || {};
+      SEDES_LIST.forEach(sede => {
+        const campingOrders = orders[sede] || {};
         const qty = campingOrders[p.id] || 0;
         totalQty += qty;
 
         campingCellsHtml += `
           <td class="camping-col-cell">
-            <input type="number" min="0" class="matrix-qty-input" value="${qty}" data-camping="${camping}" data-pid="${p.id}">
+            <input type="number" min="0" class="matrix-qty-input" value="${qty}" data-camping="${sede}" data-pid="${p.id}">
           </td>
         `;
       });
@@ -560,21 +554,21 @@ export class DepositoController {
     // Matrix input change listener
     this.matrixTbody.querySelectorAll('.matrix-qty-input').forEach(input => {
       input.addEventListener('change', () => {
-        const camping = input.getAttribute('data-camping');
+        const sede = input.getAttribute('data-camping');
         const pid = input.getAttribute('data-pid');
         const qty = input.value;
-        DepositoStore.updateCampingOrderQty(camping, pid, qty);
+        DepositoStore.updateCampingOrderQty(sede, pid, qty);
         this.renderMatrixTable();
       });
     });
   }
 
-  setupPrintSheetForCamping(camping) {
+  setupPrintSheetForCamping(sede) {
     const now = new Date();
     const dateStr = now.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
-    if (this.printSheetTitle) this.printSheetTitle.textContent = `REMITO INDIVIDUAL DE DESPACHO A CAMPING`;
-    if (this.printSheetSubtitle) this.printSheetSubtitle.textContent = `SEDE DESTINO: ${camping.toUpperCase()}`;
+    if (this.printSheetTitle) this.printSheetTitle.textContent = `REMITO INDIVIDUAL DE DESPACHO A SEDE`;
+    if (this.printSheetSubtitle) this.printSheetSubtitle.textContent = `SEDE DESTINO: ${sede.toUpperCase()}`;
     if (this.printDateSpan) this.printDateSpan.textContent = dateStr;
     if (this.printSedeInfo) this.printSedeInfo.textContent = `REMITO N° REM-${Date.now().toString().slice(-6)} // DEPÓSITO CENTRAL: Parque Roca`;
   }
@@ -584,7 +578,7 @@ export class DepositoController {
     const dateStr = now.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
     if (this.printSheetTitle) this.printSheetTitle.textContent = `MATRIZ GENERAL DE DISTRIBUCIÓN Y CARGA LOGÍSTICA`;
-    if (this.printSheetSubtitle) this.printSheetSubtitle.textContent = `CONSOLIDADO COMPARATIVO DE PEDIDOS (TODOS LOS CAMPINGS)`;
+    if (this.printSheetSubtitle) this.printSheetSubtitle.textContent = `CONSOLIDADO COMPARATIVO DE PEDIDOS (TODAS LAS SEDES)`;
     if (this.printDateSpan) this.printDateSpan.textContent = dateStr;
     if (this.printSedeInfo) this.printSedeInfo.textContent = `HOJA DE RUTA CONSOLIDADA // DEPÓSITO CENTRAL: Parque Roca`;
   }

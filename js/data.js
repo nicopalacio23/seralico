@@ -5,7 +5,7 @@
 import { SupabaseService } from './supabase.js';
 
 export const COLONIAS_ROLES = [
-  { id: 'referente_camping', label: 'Referente de Camping / Sede', requiresCamping: true },
+  { id: 'referente_camping', label: 'Referente de Sede', requiresCamping: true },
   { id: 'deposito_central', label: 'Depósito Central', requiresCamping: false },
   { id: 'planta_elaboracion', label: 'Planta de Elaboración', requiresCamping: false },
   { id: 'recursos_humanos', label: 'Recursos Humanos', requiresCamping: false },
@@ -13,14 +13,13 @@ export const COLONIAS_ROLES = [
   { id: 'sector_desayuno', label: 'Sector Desayuno & Meriendas', requiresCamping: false }
 ];
 
-export const CAMPINGS_LIST = [
-  'Parque Sarmiento (CABA)',
-  'Club Náutico San Fernando',
-  'Polideportivo Municipal Quilmes',
-  'Parque Roca (Centro Logístico)',
-  'Club Banco Nación (Vicente López)',
-  'Sede Recreativa Ezeiza'
+export const SEDES_LIST = [
+  'Sede Colón',
+  'Sede Rivadavia',
+  'Sede Zonda'
 ];
+
+export const CAMPINGS_LIST = SEDES_LIST; // Compatibility alias
 
 export const HOSPITALES_SEDES = [
   'Hospital Central de Agudos - Sede Norte',
@@ -66,8 +65,8 @@ export const MODULES_DATA = {
     sharedWith: null,
     accentColor: '#0284C7',
     description: 'Planificación de viandas infantiles, menús nutricionales, logística y coordinación estival con perfiles de acceso específicos.',
-    defaultUser: 'referente.camping@seralico.com.ar',
-    defaultRole: 'Referente de Camping'
+    defaultUser: 'referente.colon@seralico.com.ar',
+    defaultRole: 'Referente Sede Colón'
   }
 };
 
@@ -98,15 +97,41 @@ const DEFAULT_USERS = [
     createdAt: '2026-01-15'
   },
   {
-    id: 'usr_col_referente',
-    name: 'Martín Gómez (Coordinador de Sede)',
-    username: 'referente.camping@seralico.com.ar',
+    id: 'usr_col_ref_colon',
+    name: 'Martín Gómez (Referente Sede Colón)',
+    username: 'referente.colon@seralico.com.ar',
     password: 'seralico2026',
     roleType: 'colonias',
     coloniasRole: 'referente_camping',
-    roleLabel: 'Referente de Camping / Sede',
+    roleLabel: 'Referente de Sede (Colón)',
     scope: 'colonias',
-    sede: 'Parque Sarmiento (CABA)',
+    sede: 'Sede Colón',
+    active: true,
+    createdAt: '2026-02-01'
+  },
+  {
+    id: 'usr_col_ref_rivadavia',
+    name: 'Gonzalo Pérez (Referente Sede Rivadavia)',
+    username: 'referente.rivadavia@seralico.com.ar',
+    password: 'seralico2026',
+    roleType: 'colonias',
+    coloniasRole: 'referente_camping',
+    roleLabel: 'Referente de Sede (Rivadavia)',
+    scope: 'colonias',
+    sede: 'Sede Rivadavia',
+    active: true,
+    createdAt: '2026-02-01'
+  },
+  {
+    id: 'usr_col_ref_zonda',
+    name: 'Valeria Luna (Referente Sede Zonda)',
+    username: 'referente.zonda@seralico.com.ar',
+    password: 'seralico2026',
+    roleType: 'colonias',
+    coloniasRole: 'referente_camping',
+    roleLabel: 'Referente de Sede (Zonda)',
+    scope: 'colonias',
+    sede: 'Sede Zonda',
     active: true,
     createdAt: '2026-02-01'
   },
@@ -171,7 +196,7 @@ const DEFAULT_USERS = [
     coloniasRole: 'sector_desayuno',
     roleLabel: 'Sector Desayuno & Meriendas',
     scope: 'colonias',
-    sede: 'Parque Sarmiento (CABA)',
+    sede: 'Sede Colón',
     active: true,
     createdAt: '2026-02-01'
   }
@@ -185,7 +210,11 @@ export class UserStore {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        // Check if migration to 3 sedes is needed
+        if (parsed.some(u => u.username === 'referente.colon@seralico.com.ar')) {
+          return parsed;
+        }
       }
     } catch (e) {
       console.warn('LocalStorage error, using defaults:', e);
@@ -295,25 +324,16 @@ const INITIAL_CAMPING_PRODUCTS = [
   { id: 'prd_13', code: 'SEG-02', name: 'Guantes Descartables de Nitrilo', category: 'Seguridad', unit: 'Caja x 100 un.', stock: 160, active: true }
 ];
 
-// Initial seeded orders per camping (Product ID -> quantity requested)
+// Initial seeded orders per sede (Product ID -> quantity requested)
 const INITIAL_CAMPING_ORDERS = {
-  'Parque Sarmiento (CABA)': {
+  'Sede Colón': {
     'prd_01': 30, 'prd_02': 25, 'prd_03': 15, 'prd_04': 20, 'prd_05': 8, 'prd_06': 6, 'prd_08': 12, 'prd_12': 4, 'prd_13': 10
   },
-  'Club Náutico San Fernando': {
-    'prd_01': 18, 'prd_02': 15, 'prd_03': 10, 'prd_04': 15, 'prd_05': 5, 'prd_06': 4, 'prd_08': 8, 'prd_12': 3, 'prd_13': 6
-  },
-  'Polideportivo Municipal Quilmes': {
+  'Sede Rivadavia': {
     'prd_01': 24, 'prd_02': 20, 'prd_03': 12, 'prd_04': 18, 'prd_05': 6, 'prd_06': 5, 'prd_08': 10, 'prd_12': 3, 'prd_13': 8
   },
-  'Parque Roca (Centro Logístico)': {
-    'prd_01': 14, 'prd_02': 10, 'prd_03': 8, 'prd_04': 10, 'prd_05': 4, 'prd_06': 3, 'prd_08': 6, 'prd_12': 2, 'prd_13': 5
-  },
-  'Club Banco Nación (Vicente López)': {
-    'prd_01': 16, 'prd_02': 12, 'prd_03': 8, 'prd_04': 12, 'prd_05': 4, 'prd_06': 4, 'prd_08': 7, 'prd_12': 2, 'prd_13': 6
-  },
-  'Sede Recreativa Ezeiza': {
-    'prd_01': 20, 'prd_02': 18, 'prd_03': 10, 'prd_04': 14, 'prd_05': 5, 'prd_06': 4, 'prd_08': 9, 'prd_12': 3, 'prd_13': 7
+  'Sede Zonda': {
+    'prd_01': 18, 'prd_02': 15, 'prd_03': 10, 'prd_04': 14, 'prd_05': 5, 'prd_06': 4, 'prd_08': 8, 'prd_12': 2, 'prd_13': 6
   }
 };
 
@@ -489,11 +509,14 @@ export class DepositoStore {
     return p;
   }
 
-  // 2. CAMPINGS ORDERS MATRIX
+  // 2. SEDES ORDERS MATRIX
   static getCampingOrders() {
     try {
       const stored = localStorage.getItem(CAMPING_ORDERS_KEY);
-      if (stored) return JSON.parse(stored);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed['Sede Colón']) return parsed;
+      }
     } catch (e) {
       console.warn('Error reading camping orders:', e);
     }
