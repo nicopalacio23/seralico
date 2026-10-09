@@ -80,7 +80,13 @@ export class AuthController {
 
     // Modal buttons
     if (this.modalCloseBtn) {
-      this.modalCloseBtn.addEventListener('click', () => this.closeSuccessModal());
+      this.modalCloseBtn.addEventListener('click', () => {
+        if (this.onModalCloseAction) {
+          this.onModalCloseAction();
+        } else {
+          this.closeSuccessModal();
+        }
+      });
     }
 
     if (this.modalLogoutBtn) {
@@ -92,8 +98,11 @@ export class AuthController {
 
     if (this.modalAdminBtn) {
       this.modalAdminBtn.addEventListener('click', () => {
-        this.closeSuccessModal();
-        this.app.navigateTo('admin');
+        if (this.onModalAdminAction) {
+          this.onModalAdminAction();
+        } else {
+          this.closeSuccessModal();
+        }
       });
     }
   }
@@ -279,17 +288,35 @@ export class AuthController {
     if (this.modalUserBadge) {
       this.modalUserBadge.textContent = `${user.name} (${user.roleLabel}) // Sede: ${sede}`;
     }
+
+    this.onModalAdminAction = null;
+    this.onModalCloseAction = null;
+
     if (this.modalScopeNote) {
       if (user.roleType === 'superadmin') {
         this.modalScopeNote.innerHTML = `
           <strong>Rol Superusuario:</strong> Tiene acceso maestro global a todos los módulos y a la administración de usuarios.
         `;
-        if (this.modalAdminBtn) this.modalAdminBtn.style.display = 'inline-flex';
+        if (this.modalAdminBtn) {
+          this.modalAdminBtn.style.display = 'inline-flex';
+          this.modalAdminBtn.textContent = 'Ir al Panel de Superusuario →';
+          this.onModalAdminAction = () => {
+            this.closeSuccessModal();
+            this.app.navigateTo('admin');
+          };
+          this.onModalCloseAction = () => {
+            this.closeSuccessModal();
+            this.app.navigateTo('admin');
+          };
+        }
       } else if (user.roleType === 'hospitales') {
         this.modalScopeNote.innerHTML = `
           <strong>Acceso Hospitalario:</strong> Con esta misma credencial también puede ingresar al módulo de <strong>${mod.id === 'calidad' ? 'Control de Stock' : 'Control de Calidad'}</strong>.
         `;
         if (this.modalAdminBtn) this.modalAdminBtn.style.display = 'none';
+        this.onModalCloseAction = () => {
+          this.closeSuccessModal();
+        };
       } else if (user.coloniasRole === 'deposito_central') {
         this.modalScopeNote.innerHTML = `
           <strong>Depósito Central Colonias:</strong> Acceso a Catálogo de Insumos, Matriz de Pedidos por Sede, y Solicitudes de Desayuno y Planta.
@@ -297,7 +324,11 @@ export class AuthController {
         if (this.modalAdminBtn) {
           this.modalAdminBtn.style.display = 'inline-flex';
           this.modalAdminBtn.textContent = 'Ingresar al Panel de Depósito Central →';
-          this.modalAdminBtn.onclick = () => {
+          this.onModalAdminAction = () => {
+            this.closeSuccessModal();
+            this.app.navigateTo('deposito');
+          };
+          this.onModalCloseAction = () => {
             this.closeSuccessModal();
             this.app.navigateTo('deposito');
           };
@@ -310,7 +341,11 @@ export class AuthController {
         if (this.modalAdminBtn) {
           this.modalAdminBtn.style.display = 'inline-flex';
           this.modalAdminBtn.textContent = `Ingresar al Panel de ${targetSede} →`;
-          this.modalAdminBtn.onclick = () => {
+          this.onModalAdminAction = () => {
+            this.closeSuccessModal();
+            this.app.showSedeView(targetSede, user);
+          };
+          this.onModalCloseAction = () => {
             this.closeSuccessModal();
             this.app.showSedeView(targetSede, user);
           };
@@ -320,8 +355,12 @@ export class AuthController {
           <strong>Acceso Colonias:</strong> Habilitado como <em>${user.roleLabel}</em> para la temporada estival.
         `;
         if (this.modalAdminBtn) this.modalAdminBtn.style.display = 'none';
+        this.onModalCloseAction = () => {
+          this.closeSuccessModal();
+        };
       }
     }
+
     if (this.modal) {
       this.modal.classList.add('open');
     }
